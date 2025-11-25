@@ -1,0 +1,7 @@
+name: llms-for-math
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - openai=2.8.1
