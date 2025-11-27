@@ -135,7 +135,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+src/lean4/prompting/.env
 .envrc
 .venv
 env/
@@ -286,3 +286,6 @@ http-client.private.env.json
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+#lean4 prompting tests
+src/lean4/prompting/blablador_response.json
