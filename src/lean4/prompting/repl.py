@@ -26,8 +26,3 @@ if __name__ == '__main__':
     args = parser.parse_args()
     # the only validate input should be a lean script, so maybe validate the input
     print(compile_lean(args.lean_script, args.working_directory))
-
-    #with open("blablador_response.json", "w") as f:
-    #    f.write(json.dumps(output))
-    #output_json = output
-    # print("Output: ", output_json["choices"][0]["text"])
