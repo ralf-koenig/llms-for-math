@@ -51,15 +51,12 @@ with tab1:
                 model="alias-code",
                 messages=[
                     {"role": "system", "content": """
-                You are a Python code generator.
-                Return ONLY Python code.
-                Converts LLM-generated math symbols into valid Python syntax.
-                    - √ -> math.sqrt
-                    - x² -> x**2
-                    - x³ -> x**3
-                    - x⁴ -> x**4, etc.
-                Use sympy if needed.
-                Print the final answer using print().
+                You are a Python code generator specialized in solving math problems. 
+                Rules:
+                1.⁠ ⁠Return ONLY valid Python code, no Markdown, no backticks, no explanations.
+                2.⁠ ⁠You may use sympy for symbolic math.
+                3.⁠ ⁠The code must compute the answer to the user's question and print the result using print().
+                4.⁠ ⁠Keep the code safe to run in a sandbox.
                 """ },
                     {"role": "user", "content": question}
                 ]
@@ -153,11 +150,13 @@ with tab2:
             model="alias-code",
             messages=[
                 {"role": "system", "content": """
-You generate Python code.
-Output ONLY code.
-Use sympy if necessary.
-Print the answer using print().
-""" },
+            You are a Python code generator specialized in solving math problems. 
+            Rules:
+            1.⁠ ⁠Return ONLY valid Python code, no Markdown, no backticks, no explanations.
+            2.⁠ ⁠You may use sympy for symbolic math.
+            3.⁠ ⁠The code must compute the answer to the user's question and print the result using print().
+            4.⁠ ⁠Keep the code safe to run in a sandbox.
+            """ },
                 {"role": "user", "content": question}
             ]
         )
