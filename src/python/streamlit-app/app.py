@@ -8,7 +8,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # CONFIG 
-LLM_API_KEY = os.getenv("LLM_API_KEY")
+LLM_API_KEY = "glpat-U4ASIl3SdgB-Bl-WOSGoC286MQp1Om5yMgk.01.0z06bca3l"
 
 client = OpenAI(
     api_key=LLM_API_KEY,
