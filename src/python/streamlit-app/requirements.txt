@@ -3,3 +3,4 @@ requests
 openai
 sympy
 numpy
+matplotlib
