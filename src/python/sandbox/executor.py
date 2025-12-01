@@ -19,7 +19,7 @@ def run():
             ["python3", path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            timeout=5
+            timeout=60
         )
         return jsonify({
             "stdout": result.stdout.decode(),
