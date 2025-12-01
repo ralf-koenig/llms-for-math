@@ -10,19 +10,25 @@ def prompt_model(provider, input_prompt,  model):
         raise Exception("Invalid arguments", f"Provider {provider}, input prompt {input_prompt}, model {model}")
     match provider:
         case "blablador":
-            model_id = model
-            models = Models(api_key=os.getenv("BLABLADOR_API_KEY")).get_model_ids()
-            completions = Completions(api_key=os.getenv("BLABLADOR_API_KEY"), model=models[model_id], max_tokens=68928)
-            return completions.get_completion(prompt=input_prompt)
+            try:
+                model_id = model
+                models = Models(api_key=os.getenv("BLABLADOR_API_KEY")).get_model_ids()
+                completions = Completions(api_key=os.getenv("BLABLADOR_API_KEY"), model=models[model_id], max_tokens=68928)
+                return completions.get_completion(prompt=input_prompt)
+            except Exception as e:
+                raise Exception(f"Error occured when trying to use blablador", e)
         case "scads":
-            client = OpenAI(base_url="https://llm.scads.ai/v1", api_key=os.getenv("SCADS_API_KEY"))
-            models = client.models.list().data
-            model = models[model]
-            model_id= model.id
-            print("used model: ", model_id)
-            response = client.responses.create(input=input_prompt, model=model_id)
-            content = response.output_text
-            return content
+            try:
+                client = OpenAI(base_url="https://llm.scads.ai/v1", api_key=os.getenv("SCADS_API_KEY"))
+                models = client.models.list().data
+                model = models[model]
+                model_id= model.id
+                print("used model: ", model_id)
+                response = client.responses.create(input=input_prompt, model=model_id)
+                content = response.output_text
+                return content
+            except Exception as e:
+                raise Exception(f"Error occured when trying to use scads", e)
     raise Exception("Invalid provider")
 
 if __name__ == '__main__':

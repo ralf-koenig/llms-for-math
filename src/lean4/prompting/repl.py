@@ -1,19 +1,25 @@
-
 import argparse
 import subprocess
+
+
 def remove_backticks(string):
-    return string.replace('`', '`\\`')
+    return string.replace('`', '')
 
 def parse_lean_to_repl(lean):
-    sanitized_lean = remove_backticks(lean)
-    replaced_newlines = sanitized_lean.replace("\n", "\\n")
-    cmd_string = f'{{ "cmd": "{replaced_newlines}" }}'
-    return cmd_string
+    try:
+        sanitized_lean = remove_backticks(lean)
+        replaced_newlines = sanitized_lean.replace("\n", "\\n")
+        cmd_string = f'{{ "cmd": "{replaced_newlines}" }}'
+        return cmd_string
+    except Exception as e:
+        raise e
 
 def execute_lean(repl_json, working_directory='.'):
-    # maybe add a optional to specify where the repl compiler is located, if not in current directory
-    repl_cmd = subprocess.run(['lake', 'exe', 'repl'], input=repl_json, stdout=subprocess.PIPE, encoding='utf-8', cwd=working_directory)
-    return repl_cmd.stdout
+    try:
+        repl_cmd = subprocess.run(['lake', 'exe', 'repl'], input=repl_json, stdout=subprocess.PIPE, encoding='utf-8', cwd=working_directory)
+        return repl_cmd.stdout
+    except Exception as e:
+        raise e
 
 def compile_lean(lean_script, working_directory='.'):
     command_line_string = parse_lean_to_repl(lean_script)
