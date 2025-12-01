@@ -5,7 +5,9 @@ from openai import OpenAI
 
 load_dotenv()
 
-def prompt_model(provider, input_prompt,  model = 0):
+def prompt_model(provider, input_prompt,  model):
+    if provider is None or input_prompt is None or model is None:
+        raise Exception("Invalid arguments", f"Provider {provider}, input prompt {input_prompt}, model {model}")
     match provider:
         case "blablador":
             model_id = model
@@ -23,16 +25,7 @@ def prompt_model(provider, input_prompt,  model = 0):
             return content
     raise Exception("Invalid provider")
 
-def pretty_json(json_object):
-    import json
-    if type(json_object) == str:
-        json_object = json.loads(json_object)
-    return json.dumps(json_object, indent=4, sort_keys=True)
-
-def main(input_prompt, provider = "blablador", model = 0, ):
-   return prompt_model(provider=provider, model=model , input_prompt=input_prompt)
-
 if __name__ == '__main__':
     # for testing
-    llm_response = (main(input_prompt ="whats the url of google?", model=21, provider="scads"))
+    llm_response = (prompt_model(input_prompt ="whats the url of google?", model=21, provider="scads"))
     print(llm_response)
