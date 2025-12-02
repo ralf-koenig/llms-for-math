@@ -48,8 +48,8 @@ client = OpenAI()
 # Sep 30, 2024 knowledge cutoff
 # Reasoning token support
 
-# gpt-5-2025-08-07                 our previous model for coding, reasoning, and agentic tasks across domains.
-#                                   We recommend using the latest GPT-5.1
+# gpt-5-2025-08-07                  Previous model for coding, reasoning, and agentic tasks across domains.
+#                                   OpenAI recommends using the latest GPT-5.1.
 # same cost as 5.1
 
 #                                   Cost-optimized reasoning and chat; balances speed, cost, and capability
@@ -85,9 +85,9 @@ response = client.responses.create(
                                                 # only then temperature XOR top_p or logprobs can be used
                                         # minimal - for GPT 5 nano and mini
                                    # low -> reasoning model
-                                   # medium (default for )
-                                   # high
-                # summary = "auto", # organization must be verified
+                                   # medium (default for GPT 5), use with caution due to cost
+                                   # high (default for GPT 5-Pro), use with caution due to cost
+                # summary = "auto", # organization must be verified, for analysis of reasoning process
                            ),
     text = ResponseTextConfigParam (verbosity = "low"),
                                 # low : produces shorter, more concise code with minimal commentary
@@ -95,9 +95,12 @@ response = client.responses.create(
                                 # high:
     # max_output_tokens = 10000,   # An upper bound for the number of tokens that can be generated for a response,
                                 # including visible output tokens and (!) reasoning tokens (!)
-    # max_tool_calls = 1,         # The maximum number of total calls to built-in tools that can be processed in a
+
+    # max_tool_calls = 1,       # The maximum number of total calls to built-in tools that can be processed in a
                                 # response. This maximum number applies across all built-in tool calls, not per
                                 # individual tool. Any further attempts to call a tool by the model will be ignored.
+                                # USE this to limit tool use and cost.
+
     # temperature=0.15,         # max: 2
                                 # What sampling temperature to use. Higher values like 0.8 will make the output more
                                 # random, while lower values like 0.2 will make it more focused and deterministic.
@@ -140,14 +143,14 @@ response = client.responses.create(
 #       123123123123123123123123246246246246246246246246246246246246246246246246246246
 
 # GPT 5.1, Reasoning none, set temperature
-# temperature 0.15
+# temperature 0.15 - all wrong
 #       123123123123123123123123246246246246246246246246246246246246246246246246246246
 #       123123123123123123123123246246246246246246246246246246246246246246246246246246
 #       123123123123123123123123246246246246246246246246246246246246246246246246246246
 #       123123123123123123123123246246246246246246246246246246246246246246246246246246
 #             123123123123123123123123246246246246246246246246246246246246246246246246
 
-# temperature 0.25
+# temperature 0.25 - all wrong
 #       123123123123123123123123246246246246246246246246246246246246246246246246246246
 #       123123123123123123123123246246246246246246246246246246246246246246246246246246
 #       123123123123123123123123246246246246246246246246246246246246246246246246246246
