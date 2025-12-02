@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+
+  sandbox:
+    build: ./sandbox
+    container_name: sandbox
+    ports:
+      - "8000:8000"
+    networks:
+      - appnet
+
+  streamlit:
+    build: ./streamlit-app
+    container_name: streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - LLM_API_KEY=${LLM_API_KEY}
+    depends_on:
+      - sandbox
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge
