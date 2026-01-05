@@ -1,15 +1,9 @@
 import argparse
 import subprocess
 
-
-def remove_backticks(string):
-    return string.replace('`', '')
-
 def parse_lean_to_repl(lean):
     try:
-        sanitized_lean = remove_backticks(lean)
-        replaced_newlines = sanitized_lean.replace("\n", "\\n")
-        cmd_string = f'{{ "cmd": "{replaced_newlines}" }}'
+        cmd_string = f'{{ "cmd": "{lean}" }}'
         return cmd_string
     except Exception as e:
         raise e

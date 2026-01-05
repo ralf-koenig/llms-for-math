@@ -5,6 +5,15 @@ from openai import OpenAI
 
 load_dotenv()
 
+def get_models_scads():
+    client = OpenAI(base_url="https://llm.scads.ai/v1", api_key=os.getenv("SCADS_API_KEY"))
+    print("""Available models Scads.AI:""")
+    index = 0
+    for model in client.models.list().data:
+        print(index, model.id)
+        index = index + 1
+
+
 def prompt_model(provider, input_prompt,  model):
     if provider is None or input_prompt is None or model is None:
         raise Exception("Invalid arguments", f"Provider {provider}, input prompt {input_prompt}, model {model}")
@@ -33,5 +42,4 @@ def prompt_model(provider, input_prompt,  model):
 
 if __name__ == '__main__':
     # for testing
-    llm_response = (prompt_model(input_prompt ="whats the url of google?", model=21, provider="scads"))
-    print(llm_response)
+    get_models_scads()
