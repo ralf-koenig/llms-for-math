@@ -31,14 +31,22 @@ def prompt_model(provider, input_prompt,  model):
                 client = OpenAI(base_url="https://llm.scads.ai/v1", api_key=os.getenv("SCADS_API_KEY"))
                 models = client.models.list().data
                 model = models[model]
-                model_id= model.id
-                print("used model: ", model_id)
+                model_id = model.id
                 response = client.responses.create(input=input_prompt, model=model_id)
                 content = response.output_text
                 return content
             except Exception as e:
                 raise Exception(f"Error occured when trying to use scads", e)
     raise Exception("Invalid provider")
+
+def choose_model_scads():
+    client = OpenAI(base_url="https://llm.scads.ai/v1", api_key=os.getenv("SCADS_API_KEY"))
+    print("""Available models Scads.AI:""")
+    index = 0
+    for model in client.models.list().data:
+        print(f"{index}:" , model.id)
+        index = index + 1
+    return int(input("Which model would you like to use? (Enter a NUMBER)\n"))
 
 if __name__ == '__main__':
     # for testing
