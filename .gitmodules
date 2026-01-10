@@ -1,0 +1,3 @@
+[submodule "src/lean4/kimina-lean-server"]
+	path = src/lean4/kimina-lean-server
+	url = git@github.com:project-numina/kimina-lean-server.git
