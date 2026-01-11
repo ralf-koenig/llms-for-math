@@ -1,9 +1,14 @@
 import json
+import os
+import sys
+from contextlib import redirect_stdout
+from io import StringIO
 
+import pandas as pd
 from huggingface_hub.utils.tqdm import progress_bar_states, tqdm
 
 from src.lean4.prompting.ask_questions import ask_question
-from src.lean4.prompting.helpers import create_new_json
+from src.lean4.prompting.helpers import create_new_file
 from src.lean4.prompting.prompt_llm import choose_model_scads
 
 with open('../../../data/math500.json') as json_file:
@@ -15,15 +20,17 @@ pre_prompt = f"You are a mathematical expert. Provide only a Lean4 script (versi
 question = math500["rows"][6]["row"]["problem"]
 prompt = pre_prompt + question
 
-data_name = "results.json"
+filename = "results"
 
 if __name__ == '__main__':
-    result_file = create_new_json(data_name)
     model_id = choose_model_scads()
     index = 0
     test_results = list()
+
+    dataset = math500["rows"][0:n]
     #pbar = tqdm(total=n)
-    for question in math500["rows"]:
+    for question in tqdm(dataset):
+
         ### EXAMPLE ROW
         #{
         #   "row_idx": 0,
@@ -48,11 +55,22 @@ if __name__ == '__main__':
 
         test_results.append(test_row)
 
-        index += 1
-        if index >= n:
-            break
-    with result_file:
-        result_file.write(json.dumps (test_results, ensure_ascii=False, indent=4))
-        result_file.close()
+        # results.append({
+        #     "ID": r["unique_id"],
+        #     "Raw LLM Answer": raw,
+        #     "Python Output": out,
+        #     "Dataset Answer": r["answer"],
+        #     "Dataset Comparison": gt_cmp,
+        #     "Python Correct?": python_correct,
+        #     "LLM vs Python": llm_match
+        # })
 
-    #pbar.close()
+    df = pd.DataFrame(test_results)
+    csv = df.to_csv(f'{filename}.csv', index=False)
+
+    # WRITE JSON
+    # result_file = create_new_file(f'{filename}.json')
+    # with result_file:
+    #     result_file.write(json.dumps (test_results, ensure_ascii=False, indent=4))
+    #     result_file.close()
+

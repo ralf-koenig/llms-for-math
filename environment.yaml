@@ -7,4 +7,3 @@ dependencies:
   - openai=2.8.1
   - requests
   - python-dotenv
-  - kimina-client

@@ -7,7 +7,7 @@ def sanitize_llm_answer(string):
     #return string.replace("\n", "\\n")
     return string
 
-def create_new_json(filename):
+def create_new_file(filename):
     try:
         f = open(filename, "x", encoding='utf-8')
     except FileExistsError as fee:
