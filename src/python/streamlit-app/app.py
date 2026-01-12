@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+from kimina_client import KiminaClient
 from openai import OpenAI
 import os
 import re
@@ -178,6 +179,37 @@ with tab2:
         except Exception as e:
             return "", str(e)
 
+    def generate_lean(question):
+        r = client.chat.completions.create(
+            model="alias-code",
+            messages=[
+                {"role": "system", "content": """
+                   You are a Lean4 code generator specialized in solving math problems. 
+                   Rules:
+                   1.⁠ ⁠Return ONLY valid Lean4 code, no Markdown, no backticks, no explanations.
+                   2.⁠ ⁠You may use sympy for symbolic math.
+                   3.⁠ ⁠The code must compute the answer to the user's question and print the result using #eval.
+                   4.⁠ ⁠Keep the code safe to run in a sandbox.
+                   """},
+                {"role": "user", "content": question}
+            ]
+        )
+        code = r.choices[0].message.content.strip()
+        code = re.sub(r"^```[a-zA-Z]*\n", "", code)
+        code = re.sub(r"\n```$", "", code)
+        return code
+
+    def execute_lean(code):
+        try:
+            kimina_address = "http://localhost:80"
+            # send a request to the kimina server to compile the script
+            kimina_client = KiminaClient(api_url=kimina_address)  # Defaults to "http://localhost:8000", no API key
+            response = kimina_client.check(code, timeout=600, show_progress=False)
+            return response.results[0]
+        except Exception as e:
+            return "", str(e)
+
+
     def compare_match(q, raw, out):
         prompt = f"""
 Question: {q}
@@ -194,10 +226,10 @@ Respond only 'Match' or 'Mismatch' plus brief explanation if mismatch.
         )
         return r.choices[0].message.content.strip()
 
-    def compare_with_ground_truth(q, py, true):
+    def compare_with_ground_truth(q, code, true):
         prompt = f"""
 Question: {q}
-Python Output: {py}
+Code Output: {code}
 Ground Truth: {true}
 
 Respond ONLY:
@@ -280,12 +312,23 @@ Respond ONLY:
             code = generate_code(q)
             out, err = execute_python(code)
 
+            lean = generate_lean(q)
+            out_lean, err_lean = execute_lean(code)
+
             if out and not err:
                 gt_cmp = compare_with_ground_truth(q, out, r["answer"])
                 python_correct = gt_cmp.lower().startswith("match")
             else:
                 gt_cmp = "Error"
                 python_correct = False
+
+            if out_lean and not err_lean:
+                gt_cmp_lean = compare_with_ground_truth(q, out_lean, r["answer"])
+                lean_correct = gt_cmp.lower().startswith("match")
+            else:
+                gt_cmp_lean = "Error"
+                lean_correct = False
+
 
             if out and not err:
                 llm_match = compare_match(q, raw, out)
@@ -297,9 +340,12 @@ Respond ONLY:
                 "Raw LLM Answer": raw,
                 "Python Output": out,
                 "Dataset Answer": r["answer"],
-                "Dataset Comparison": gt_cmp,
+                "Dataset Comparison Python": gt_cmp,
                 "Python Correct?": python_correct,
-                "LLM vs Python": llm_match
+                "LLM vs Python": llm_match,
+                "Lean4 Output": out_lean,
+                "Dataset Comparison Lean4": gt_cmp_lean,
+                "Lean4 Correct?": lean_correct,
             })
 
             progress.progress((i + 1) / total)

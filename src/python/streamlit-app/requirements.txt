@@ -4,3 +4,5 @@ openai
 sympy
 numpy
 matplotlib
+kimina_client
+pygments
