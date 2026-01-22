@@ -17,6 +17,8 @@ services:
       - LLM_API_KEY=${LLM_API_KEY}
     depends_on:
       - sandbox
+    volumes:
+      - results:/results/autosaves/
     networks:
       - appnet
 
@@ -27,6 +29,9 @@ services:
     env_file:
       - path: .env
         required: false
+    environment:
+      - LEAN_SERVER_LEAN_VERSION=v4.26.0
+
     ports:
       - "80:${LEAN_SERVER_PORT:-8000}"
     restart: unless-stopped
@@ -36,3 +41,10 @@ services:
 networks:
   appnet:
     driver: bridge
+
+volumes:
+  results:
+    driver_opts:
+      type: none
+      device: ${PWD}/data/autosaves
+      o: bind
