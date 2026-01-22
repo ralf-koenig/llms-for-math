@@ -1,3 +1,6 @@
+import datetime
+from datetime import timedelta
+
 import streamlit as st
 import requests
 from kimina_client import KiminaClient
@@ -442,7 +445,12 @@ Ground Truth: {true}
         st.session_state["results_df"] = df
         st.dataframe(df)
 
-        csv = df.to_csv(index=False).encode("utf-8")
+        csv = df.to_csv(index=False)
+
+        current_date_time = datetime.datetime.now(tz=datetime.timezone(offset=timedelta(hours=1))).strftime("%d/%m/%Y_%H:%M:%S")
+        with open(current_date_time, "w", encoding="utf-8") as f:
+            f.write(csv)
+
         st.download_button("Download CSV", csv, "results.csv", "text/csv")
 
 # TAB 3 — VISUALIZATION OF AUTO-LOOP RESULTS
