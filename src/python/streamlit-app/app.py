@@ -146,9 +146,15 @@ with tab2:
     st.write("## Model")
     model = st.selectbox('model', models, format_func=label_model)
     model_name = model.id
-    print(model_name)
 
     # Helper Functions
+
+    def strip_tags_and_thinking(text):
+        html_pattern = r'<[^>]+>(.|\n)*<\/[^>]+>'
+        text = re.sub(html_pattern, '', text, flags=re.DOTALL)
+        text = re.sub(r"^```[a-zA-Z]*\n", "", text, flags=re.MULTILINE)
+        text = re.sub(r"\n```$", "", text)
+        return text.strip()
 
     def run_raw_llm(question):
         r = client.chat.completions.create(
@@ -177,8 +183,7 @@ with tab2:
             ]
         )
         code = r.choices[0].message.content.strip()
-        code = re.sub(r"^```[a-zA-Z]*\n", "", code)
-        code = re.sub(r"\n```$", "", code)
+        code = strip_tags_and_thinking(code)
         return code
 
 
@@ -212,8 +217,7 @@ with tab2:
             ]
         )
         code = r.choices[0].message.content.strip()
-        code = re.sub(r"^```[a-zA-Z]*\n", "", code)
-        code = re.sub(r"\n```$", "", code)
+        code = strip_tags_and_thinking(code)
         return code
 
 
@@ -321,6 +325,7 @@ Ground Truth: {true}
                 st.info(raw)
 
                 gt_raw = compare_with_ground_truth(question, raw, true_answer)
+                raw_correct = gt_raw.lower().startswith("correct")
                 st.subheader("Ground Truth Comparison")
                 if gt_raw.lower().startswith("match"):
                     st.success("Output matches ground truth.")
@@ -416,15 +421,18 @@ Ground Truth: {true}
 
             results.append({
                 "ID": r["unique_id"],
-                "Raw LLM Answer": raw,
-                "Python Output": out,
-                "Dataset Answer": r["answer"],
-                "Dataset Comparison Python": gt_cmp,
-                "Python Correct?": python_correct,
+                "Problem": q["problem"],
+                "Ground Truth Answer": r["answer"],
+                "Ground Truth Solution": r["solution"],
+                "Pure LLM Answer": raw,
+                "Pure LLM Correct": raw_correct,
+                "Python Answer": out,
+                "Python Comparison": gt_cmp,
+                "Python Answer Correct": python_correct,
                 # "LLM vs Python": llm_match,
-                "Lean4 Output": out_lean,
-                "Dataset Comparison Lean4": gt_cmp_lean,
-                "Lean4 Correct?": lean_correct,
+                "Lean4 Answer": out_lean,
+                "Lean4 Comparison": gt_cmp_lean,
+                "Lean4 Answer Correct": lean_correct,
                 "Model": model_name
             })
 
