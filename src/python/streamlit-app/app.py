@@ -498,7 +498,7 @@ with tab2:
         current_date_time = datetime.datetime.now(
             tz=datetime.timezone(offset=timedelta(hours=1))
         ).strftime("%Y-%m-%d_%H-%M-%S")
-        results_filename = f"/results/autosaves/results_{current_date_time}.csv"
+        results_filename = f"/results/results_{current_date_time}.csv"
 
         try:
             with open(results_filename, "w", encoding="utf-8") as f:
