@@ -18,14 +18,14 @@ services:
     depends_on:
       - sandbox
     volumes:
-      - results:/results/autosaves/
+      - ./data/autosaves:/results
     networks:
       - appnet
 
   server:
     image: projectnumina/kimina-lean-server:2.0.0
-    build:
-      context: .
+    # build:
+      # context: .
     env_file:
       - path: .env
         required: false
@@ -41,10 +41,3 @@ services:
 networks:
   appnet:
     driver: bridge
-
-volumes:
-  results:
-    driver_opts:
-      type: none
-      device: ${PWD}/data/autosaves
-      o: bind
