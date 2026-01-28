@@ -547,10 +547,12 @@ with tab3:
     st.subheader("Correctness by Method")
     comparison_data = pd.DataFrame({
         "Method": ["Raw LLM", "Python", "Lean4"],
-        "Correct": [raw_correct, python_correct, lean_correct],
-        "Incorrect": [total - raw_correct, total - python_correct, total - lean_correct]
+        "1) Incorrect": [total - raw_correct, total - python_correct, total - lean_correct],
+        "2) Correct": [raw_correct, python_correct, lean_correct]
     })
-    st.bar_chart(comparison_data.set_index("Method"))
+    # Sort = False to keep the order Raw, Python, Lean4 instead of an alphabetic reordering
+    # that would invert this order
+    st.bar_chart(comparison_data.set_index("Method"), sort=False, color=["#C9E7FB", "#0D67C4"])
 
     # Pie Chart for Python
     st.subheader("Python Correctness Distribution")
@@ -566,20 +568,20 @@ with tab3:
     st.subheader("Filter Incorrect Predictions")
     filter_method = st.selectbox(
         "Filter by method:",
-        ["Python Incorrect", "Lean4 Incorrect", "Raw LLM Incorrect", "All Incorrect"]
+        ["Raw LLM Incorrect", "Python Incorrect", "Lean4 Incorrect", "Any Incorrect"]
     )
 
-    if filter_method == "Python Incorrect":
+    if filter_method == "Raw LLM Incorrect":
+        incorrect_df = df[df["Pure LLM Correct"] == False]
+    elif filter_method == "Python Incorrect":
         incorrect_df = df[df["Python Answer Correct"] == False]
     elif filter_method == "Lean4 Incorrect":
         incorrect_df = df[df["Lean4 Answer Correct"] == False]
-    elif filter_method == "Raw LLM Incorrect":
-        incorrect_df = df[df["Pure LLM Correct"] == False]
     else:
         incorrect_df = df[
+            (df["Pure LLM Correct"] == False) |
             (df["Python Answer Correct"] == False) |
-            (df["Lean4 Answer Correct"] == False) |
-            (df["Pure LLM Correct"] == False)
+            (df["Lean4 Answer Correct"] == False)
         ]
 
     if len(incorrect_df) == 0:

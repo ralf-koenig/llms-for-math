@@ -10,8 +10,8 @@ from openai import OpenAI
 from openai.types.shared_params.reasoning import Reasoning
 from openai.types.responses.response_text_config_param import ResponseTextConfigParam
 
-REPETITIONS = 1
-MAX_QUESTION = 5
+REPETITIONS = 5
+MAX_QUESTION = 100
 
 # OPENAI_MODEL = "gpt-5.2-pro-2025-12-11" # USE WITH CARE! ALWAYS REASONING EFFORT HIGH! HIGH COST QUICKLY!
 OPENAI_MODEL = "gpt-5.2-2025-12-11"  # USE WITH CARE. High cost for reasoning = medium or high!
@@ -91,7 +91,7 @@ if __name__ == '__main__':
                             ground_truth_solution=ground_truth_solution,
                             ground_truth_answer=ground_truth_answer,
                             llm_direct_solution=response.output_text,
-                            llm_extracted_answer="",
+                            llm_answer_correct="",
                             model=OPENAI_MODEL,
                             request_date=datetime.today().strftime('%Y-%m-%d'),
                             # input tokens, cached_tokens, output_tokens, reasoning tokens, total_tokens
