@@ -1,5 +1,6 @@
-# Set you OPENAI_API_KEY in an environment variable before and make sure to have
-# some budget for API usage.
+# Prerequisites:
+# Set you OPENAI_API_KEY in an environment variable before.
+# Make sure to have some budget for API usage at OpenAI.
 
 import json
 import pandas as pd
@@ -10,26 +11,35 @@ from openai import OpenAI
 from openai.types.shared_params.reasoning import Reasoning
 from openai.types.responses.response_text_config_param import ResponseTextConfigParam
 
-REPETITIONS = 5
-MAX_QUESTION = 100
+REPETITIONS = 5    # Warning: Keep in mind OpenAI costs for API calls !!
+MAX_QUESTION = 100   # max 100, as only 100 questions in dataset
 
-# OPENAI_MODEL = "gpt-5.2-pro-2025-12-11" # USE WITH CARE! ALWAYS REASONING EFFORT HIGH! HIGH COST QUICKLY!
-OPENAI_MODEL = "gpt-5.2-2025-12-11"  # USE WITH CARE. High cost for reasoning = medium or high!
-# OPENAI_MODEL = "gpt-5-mini-2025-08-07",
-# OPENAI_MODEL = "gpt-5-nano-2025-08-07",
+# OPENAI_MODEL = "gpt-5.2-pro-2025-12-11" # USE WITH CARE! Always reasoning effort medium or higher!
+#                                           HIGH COST QUICKLY due to many reasoning tokens.
+# OPENAI_MODEL = "gpt-5.2-2025-12-11"  # USE WITH CARE. High cost for reasoning effort = medium or high!
+OPENAI_MODEL = "gpt-5-mini-2025-08-07"
+# OPENAI_MODEL = "gpt-5-nano-2025-08-07"
 
 OUTPUT_FILE = "llm_direct_answer_results"
 
 def list_openai_models():
+    model_list=[]
     client = OpenAI()
     # Get list of available models from OpenAI metadata server
     models = client.models.list()
-    # Print model IDs
+    # Print model IDs in sorted order
     for model in models.data:
-        print(model.id)
+        model_list.append(model.id)
+    model_list.sort()
+    print( "\n".join(model_list))
     return
 
 if __name__ == '__main__':
+
+    # list_openai_models()
+    # exit()
+
+    print("Start time", f"{datetime.today().strftime('%Y-%m-%d-%H:%M:%S')}")
 
     with open('../../data/math500.json') as json_file:
         math500 = json.load(json_file)
@@ -41,25 +51,32 @@ if __name__ == '__main__':
 
     for question in dataset:
 
+        row_idx = question["row_idx"]
+        subject = question["row"]["subject"]
+        level = question["row"]["level"]
+
         problem = question["row"]["problem"]
         ground_truth_solution = question["row"]["solution"]
         ground_truth_answer = question["row"]["answer"]
 
         prompt = problem
 
+        print("row_idx", row_idx)
         for i in range(REPETITIONS):
+            print("repetition", i)
             client = OpenAI()
 
             response = client.responses.create(
                 model = OPENAI_MODEL,
                 input=prompt,
-                reasoning = Reasoning (effort = "none",
+                reasoning = Reasoning (effort = "high",
                                                # none (default for GPT 5.1 and 5.2) -> for low-latency interactions
                                                             # only then temperature XOR top_p or logprobs can be used
                                                # minimal - for GPT 5 nano and mini
                                                # low -> simple reasoning model, about 10-fold input size for 100 token prompt
-                                               # medium (default for GPT 5), use with caution due to cost
-                                               # high (default for GPT 5-Pro), use with caution due to cost
+                                               # medium (default and minimum for GPT 5.2 Pro), use with caution due to cost
+                                               # high (default for GPT 5-Pro), use with caution due to cost.
+                                               #       is most advanced option for GPT5-mini and GPT5-nano.
                                                # xhigh (option for GPT 5.2 Pro and 5.2)
                             # summary = "auto", # organization must be verified, for analysis of reasoning process
                                        ),
@@ -87,11 +104,15 @@ if __name__ == '__main__':
                                             # We generally recommend altering this or temperature but not both.
             )
 
-            test_row = dict(problem=problem,
+            test_row = dict(row_idx=row_idx,
+                            problem=problem,
+                            level=level,
+                            subject=subject,
                             ground_truth_solution=ground_truth_solution,
                             ground_truth_answer=ground_truth_answer,
                             llm_direct_solution=response.output_text,
                             llm_answer_correct="",
+                            count=1,
                             model=OPENAI_MODEL,
                             request_date=datetime.today().strftime('%Y-%m-%d'),
                             # input tokens, cached_tokens, output_tokens, reasoning tokens, total_tokens
@@ -103,5 +124,8 @@ if __name__ == '__main__':
             test_results.append(test_row)
 
     df_results = pd.DataFrame(test_results)
-    df_results.to_csv(f'{OUTPUT_FILE}.csv', index=False)
-    df_results.to_excel(f'{OUTPUT_FILE}.xlsx', index=False)
+    # df_results.to_csv(f'{datetime.today().strftime('%Y-%m-%d-%H-%M-%S')}-{OUTPUT_FILE}.csv', index=False)
+    # Excel format is better for adding the field if the answer is correct manually
+    df_results.to_excel(f'{datetime.today().strftime('%Y-%m-%d-%H-%M-%S')}-{OUTPUT_FILE}.xlsx', index=False)
+
+    print("End time", f"{datetime.today().strftime('%Y-%m-%d-%H:%M:%S')}")
