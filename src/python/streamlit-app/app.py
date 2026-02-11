@@ -22,8 +22,9 @@ client = OpenAI(
 
 # HELPER FUNCTIONS
 
+
 def strip_tags_and_thinking(text):
-    """Remove HTML tags and markdown code blocks from text."""
+    """Remove HTML tags and Markdown code blocks from text."""
     html_pattern = r'<[^>]+>(.|\n)*<\/[^>]+>'
     text = re.sub(html_pattern, '', text, flags=re.DOTALL)
     text = re.sub(r"^```[a-zA-Z]*\n", "", text, flags=re.MULTILINE)
@@ -155,16 +156,16 @@ def compare_with_ground_truth(question, output, ground_truth):
     """Compare output with ground truth using LLM."""
     try:
         prompt = f"""
-Compare the Compiler Output with the Ground Truth. See if they are practically the same.
-You are only allowed to response with either "Match" or "Mismatch" as the first Word. Also add a Explanation in the next line.
+Compare the compiler output with the ground truth. See if they are practically the same.
+You are only allowed to respond with either "Match" or "Mismatch" as the first word. Also add an explanation in the next line.
 
-Compiler Output: {output}
-Ground Truth: {ground_truth}
+Compiler output: {output}
+Ground truth: {ground_truth}
 """
         r = client.chat.completions.create(
             model="alias-huge",
             messages=[
-                {"role": "system", "content": "You are a Math-Tutor. You score the answers to mathematical Questions"},
+                {"role": "system", "content": "You are a math tutor. You score the answers to mathematical questions."},
                 {"role": "user", "content": prompt}
             ]
         )
@@ -186,7 +187,7 @@ tab1, tab2, tab3 = st.tabs([
 
 # TAB 1 — SINGLE QUESTION MODE
 with tab1:
-    st.header("Raw vs Executable Answer Comparison")
+    st.header("Raw vs Python Code answer comparison")
 
     with st.form("math_question_form"):
         question = st.text_input("Enter a math question:", key="question_input_tab1")
@@ -305,9 +306,12 @@ with tab2:
     row_labels = [f"{row['row_idx']} — {row['row']['unique_id']}" for row in rows]
     selected_label = st.selectbox("Pick a dataset row:", row_labels)
     idx = row_labels.index(selected_label)
+
     row = rows[idx]["row"]
+
     question = row["problem"]
     true_answer = row["answer"]
+
     st.write("### Problem:")
     st.info(question)
     st.write("#### Solution:")
@@ -319,18 +323,18 @@ with tab2:
                 # Get raw LLM answer
                 raw, raw_err = run_raw_llm(question, model_name)
                 if raw_err:
-                    st.error(f"Raw LLM failed: {raw_err}")
+                    st.error(f"Raw LLM answer failed: {raw_err}")
 
                 # Generate and execute Python code
                 code, code_err = generate_code(question, model_name)
                 if code_err:
-                    st.error(f"Code generation failed: {code_err}")
+                    st.error(f"Python code generation failed: {code_err}")
                 out, err = execute_python(code)
 
                 # Generate and execute Lean code
                 lean, lean_gen_err = generate_lean(question, model_name)
                 if lean_gen_err:
-                    st.error(f"Lean generation failed: {lean_gen_err}")
+                    st.error(f"Lean4 code generation failed: {lean_gen_err}")
                 out_lean, err_lean = execute_lean(lean)
 
             col1, col2, col3 = st.columns(3)
@@ -356,7 +360,7 @@ with tab2:
                 if code:
                     st.code(code, language="python")
                 else:
-                    st.warning("No code generated")
+                    st.warning("No Python code generated")
                 st.success(out if out else "(no output)")
                 if err:
                     st.error(err)
@@ -424,20 +428,20 @@ with tab2:
             if raw and not raw_err:
                 gt_cmp_raw, gt_raw_err = compare_with_ground_truth(q, raw, r["answer"])
                 if gt_raw_err:
-                    errors_encountered.append(f"Row {i}: Raw comparison error - {gt_raw_err}")
+                    errors_encountered.append(f"Row {i}: Raw LLM answer comparison error - {gt_raw_err}")
                 else:
                     raw_correct = gt_cmp_raw.lower().startswith("match")
 
             # Generate and execute Python code
             code, code_err = generate_code(q, model_name)
             if code_err:
-                errors_encountered.append(f"Row {i}: Code generation error - {code_err}")
+                errors_encountered.append(f"Row {i}: Python code generation error - {code_err}")
             out, err = execute_python(code)
 
             # Generate and execute Lean code
             lean, lean_err = generate_lean(q, model_name)
             if lean_err:
-                errors_encountered.append(f"Row {i}: Lean generation error - {lean_err}")
+                errors_encountered.append(f"Row {i}: Lean code generation error - {lean_err}")
             out_lean, err_lean = execute_lean(lean)
 
             # Compare Python output with ground truth
