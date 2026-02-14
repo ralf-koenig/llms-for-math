@@ -1,244 +1,411 @@
 {
-  "rows": [
+  "features": [
     {
-      "problem": "We consider the Ackermann function $a : \\mathbb{N} \\times \\mathbb{N} \\to \\mathbb{N}$, defined as follows:\n$$a(x, y) = \\begin{cases} y + 1 & \\text{if } x = 0 \\\\ a(x - 1, 1) & \\text{if } x \\neq 0 \\text{ and } y = 0 \\\\ a(x - 1, a(x, y - 1)) & \\text{otherwise} \\end{cases}$$\nShow that for all $n \\geq 1$ and $y \\geq 0$: $a(n + 1, y) > a(n, y) + y$.",
-      "solution": "Before the actual proof, we show the following:\n- $a(0, y) = y + 1$ for all $y \\in \\mathbb{N}$ (by definition of $a$)\n- $a(1, y) = y + 2$ for all $y \\in \\mathbb{N}$, because $a(1, y) = a(0, a(1, y - 1)) = a(1, y - 1) + 1 = \\ldots = a(1, 0) + y = a(0, 1) + y = y + 2$\n- $a(2, y) = 2y + 3$ for all $y \\in \\mathbb{N}$, because $a(2, y) = a(1, a(2, y - 1)) = a(2, y - 1) + 2 = \\ldots = a(2, 0) + 2y = a(1, 1) + 2y = 2y + 3$\n\nProof by induction over $n$.\n\nBase case ($n = 1$): Using the above results,\n$$a(n + 1, y) = a(2, y) = 2y + 3 > 2y + 2 = a(1, y) + y$$\n\nInduction hypothesis: $a(n + 1, y) > a(n, y) + y$ for all $y \\in \\mathbb{N}$.\n\nInduction claim: $a(n + 2, y) > a(n + 1, y) + y$ for all $y \\in \\mathbb{N}$.\n\nInduction step: Case distinction.\n\nFor $y = 0$:\n$$a(n + 2, y) > a(n + 1, y) + 0 = a(n + 1, y) + y$$ by §5.7\n\nFor $y > 0$:\n$$a(n + 2, y) = a(n + 1, a(n + 2, y - 1))$$\n$$> a(n, a(n + 2, y - 1)) + a(n + 2, y - 1) \\quad \\text{(by IH)}$$\n$$\\geq a(n, a(n + 1, y)) + a(n + 1, y) \\quad \\text{(by §5.6 + §5.5)}$$\n$$\\geq y + a(n + 1, y) \\quad \\text{(by §5.3)}$$\n\nThus, $\\boxed{a(n + 1, y) > a(n, y) + y}$ holds for all $n \\geq 1$ and $y \\geq 0$.",
-      "answer": "a(n + 1, y) > a(n, y) + y",
-      "subject": "Computability Theory",
-      "level": 4,
-      "unique_id": "serie3_2024/exercise3.1"
+      "feature_idx": 0,
+      "name": "problem",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
     },
     {
+      "feature_idx": 1,
+      "name": "solution",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 2,
+      "name": "answer",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 3,
+      "name": "subject",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 4,
+      "name": "level",
+      "type": {
+        "dtype": "int64",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 5,
+      "name": "unique_id",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    }
+  ],
+
+  "rows": [
+    {
+	  "row_idx": 0,
+      "row": {
+		  "problem": "We consider the Ackermann function $a : \\mathbb{N} \\times \\mathbb{N} \\to \\mathbb{N}$, defined as follows:\n$$a(x, y) = \\begin{cases} y + 1 & \\text{if } x = 0 \\\\ a(x - 1, 1) & \\text{if } x \\neq 0 \\text{ and } y = 0 \\\\ a(x - 1, a(x, y - 1)) & \\text{otherwise} \\end{cases}$$\nShow that for all $n \\geq 1$ and $y \\geq 0$: $a(n + 1, y) > a(n, y) + y$.",
+		  "solution": "Before the actual proof, we show the following:\n- $a(0, y) = y + 1$ for all $y \\in \\mathbb{N}$ (by definition of $a$)\n- $a(1, y) = y + 2$ for all $y \\in \\mathbb{N}$, because $a(1, y) = a(0, a(1, y - 1)) = a(1, y - 1) + 1 = \\ldots = a(1, 0) + y = a(0, 1) + y = y + 2$\n- $a(2, y) = 2y + 3$ for all $y \\in \\mathbb{N}$, because $a(2, y) = a(1, a(2, y - 1)) = a(2, y - 1) + 2 = \\ldots = a(2, 0) + 2y = a(1, 1) + 2y = 2y + 3$\n\nProof by induction over $n$.\n\nBase case ($n = 1$): Using the above results,\n$$a(n + 1, y) = a(2, y) = 2y + 3 > 2y + 2 = a(1, y) + y$$\n\nInduction hypothesis: $a(n + 1, y) > a(n, y) + y$ for all $y \\in \\mathbb{N}$.\n\nInduction claim: $a(n + 2, y) > a(n + 1, y) + y$ for all $y \\in \\mathbb{N}$.\n\nInduction step: Case distinction.\n\nFor $y = 0$:\n$$a(n + 2, y) > a(n + 1, y) + 0 = a(n + 1, y) + y$$ by §5.7\n\nFor $y > 0$:\n$$a(n + 2, y) = a(n + 1, a(n + 2, y - 1))$$\n$$> a(n, a(n + 2, y - 1)) + a(n + 2, y - 1) \\quad \\text{(by IH)}$$\n$$\\geq a(n, a(n + 1, y)) + a(n + 1, y) \\quad \\text{(by §5.6 + §5.5)}$$\n$$\\geq y + a(n + 1, y) \\quad \\text{(by §5.3)}$$\n\nThus, $\\boxed{a(n + 1, y) > a(n, y) + y}$ holds for all $n \\geq 1$ and $y \\geq 0$.",
+		  "answer": "a(n + 1, y) > a(n, y) + y",
+		  "subject": "Computability Theory",
+		  "level": 4,
+		  "unique_id": "serie3_2024/exercise3.1"
+	  }
+    },
+    {
+	  "row_idx": 1,
+      "row": {
       "problem": "Give a WHILE program $P$ in strict syntax that computes the function $f : \\mathbb{N} \\rightharpoonup \\mathbb{N}$ defined by:\n$$f(n) = \\begin{cases} 1 & \\text{if } n < 42 \\\\ \\bot & \\text{otherwise} \\end{cases}$$",
       "solution": "The following WHILE program computes $f$ and is in strict syntax:\n\n```\nx2 = x2 + 41;\nWHILE(x2 != 0) {\n  x2 = x2 - 1;\n  x1 = x1 - 1;\n}\nWHILE(x1 != 0) {\n  x1 = x1 + 0;\n}\nx1 = 1;\n```\n\nExplanation: The program first sets $x_2 = 41$. The first WHILE loop decrements both $x_2$ and $x_1$ (the input) 41 times. After this loop, if the original input was less than 42, then $x_1$ will be 0 (since subtracting from 0 in this model gives 0). If the input was 42 or greater, $x_1$ will be positive. The second WHILE loop runs forever if $x_1 \\neq 0$ (infinite loop with `x1 = x1 + 0`), causing the function to be undefined. If $x_1 = 0$, we skip the second loop and set $x_1 = 1$ as the output.\n\nThe answer is $\\boxed{\\text{x2 = x2 + 41; WHILE(x2 != 0) \\{ x2 = x2 - 1; x1 = x1 - 1; \\} WHILE(x1 != 0) \\{ x1 = x1 + 0; \\} x1 = 1;}}$",
       "answer": "x2 = x2 + 41; WHILE(x2 != 0) { x2 = x2 - 1; x1 = x1 - 1; } WHILE(x1 != 0) { x1 = x1 + 0; } x1 = 1;",
       "subject": "Computability Theory",
       "level": 3,
       "unique_id": "serie3_2024/exercise3.2"
+	  }
     },
     {
+			  "row_idx": 2,
+      "row": {
+
       "problem": "We define the following sets of functions:\n- $L = \\{ f : \\mathbb{N} \\rightharpoonup \\mathbb{N} \\mid f \\text{ is LOOP-computable}\\}$\n- $T = \\{ f : \\mathbb{N} \\rightharpoonup \\mathbb{N} \\mid f \\text{ is total and WHILE-computable}\\}$\n- $W = \\{ f : \\mathbb{N} \\rightharpoonup \\mathbb{N} \\mid f \\text{ is WHILE-computable}\\}$\n- $F = \\{ f : \\mathbb{N} \\rightharpoonup \\mathbb{N} \\mid f \\text{ is a function}\\}$\n\nProve: $\\emptyset \\subsetneq L \\subsetneq T \\subsetneq W \\subsetneq F$",
       "solution": "The inclusions are clear (see lecture). We show that the inclusions are strict.\n\n**$\\emptyset \\subsetneq L$:** The constant function $1 : \\mathbb{N} \\to \\mathbb{N} : n \\mapsto 1$ can be computed by a LOOP program, so $L \\neq \\emptyset$.\n\n**$L \\subsetneq T$:** The Ackermann function is total and WHILE-computable, but not LOOP-computable. This is a well-known result that the Ackermann function grows faster than any primitive recursive function.\n\n**$T \\subsetneq W$:** The everywhere undefined function $\\bot : \\mathbb{N} \\rightharpoonup \\mathbb{N} : n \\mapsto \\bot$ is not total, but it is WHILE-computable (e.g., by a program with an infinite loop: `WHILE(x1 + 1 != 0) { x1 = x1 + 0; }`).\n\n**$W \\subsetneq F$:** The set $F$ is uncountable (cf. Exercise 1.1 - this follows from the fact that $F$ contains all functions from $\\mathbb{N}$ to $\\mathbb{N}$, which has cardinality $2^{\\aleph_0}$). The set $W$ is countable (cf. Lecture 1: countability of all grammars. Idea: WHILE programs can be encoded as words over $\\mathbb{N}$; the set $\\mathbb{N}^*$ is countable). Since $W$ is countable and $F$ is uncountable, we have $W \\subsetneq F$.\n\nThus, $\\boxed{\\emptyset \\subsetneq L \\subsetneq T \\subsetneq W \\subsetneq F}$.",
       "answer": "\\emptyset \\subsetneq L \\subsetneq T \\subsetneq W \\subsetneq F",
       "subject": "Computability Theory",
       "level": 4,
       "unique_id": "serie3_2024/exercise3.3"
+	  }
     },
     {
+	  "row_idx": 3,
+      "row": {
+		
       "problem": "We consider the Ackermann function $a : \\mathbb{N} \\times \\mathbb{N} \\to \\mathbb{N}$, defined as follows:\n$$a(x, y) = \\begin{cases} y + 1 & \\text{if } x = 0 \\\\ a(x - 1, 1) & \\text{if } x \\neq 0 \\text{ and } y = 0 \\\\ a(x - 1, a(x, y - 1)) & \\text{otherwise} \\end{cases}$$\nShow that for all $n, x, y \\in \\mathbb{N}$: $a(n, x + y) \\geq a(n, x) + y$.\n\nHint: You can conduct the proof by double induction over $n$ and $y$. Also helpful is §5.3 from Lecture 5.",
       "solution": "Proof by induction over $y$.\n\n**Base case ($y = 0$):**\n$$a(n, x + 0) = a(n, x) = a(n, x) + 0$$\nThe inequality holds with equality.\n\n**Induction hypothesis:** $a(n, x + y) \\geq a(n, x) + y$ for all $n, x$.\n\n**Induction claim:** $a(n, x + y + 1) \\geq a(n, x) + y + 1$ for all $n, x$.\n\n**Induction step:**\n$$a(n, x + y + 1) \\geq a(n, x + y) + 1 \\quad \\text{(by §5.4: } a(n, z+1) \\geq a(n, z) + 1\\text{)}$$\n$$\\geq a(n, x) + y + 1 \\quad \\text{(by induction hypothesis)}$$\n\nThus, $\\boxed{a(n, x + y) \\geq a(n, x) + y}$ holds for all $n, x, y \\in \\mathbb{N}$.",
       "answer": "a(n, x + y) \\geq a(n, x) + y",
       "subject": "Computability Theory",
       "level": 3,
       "unique_id": "serie3_2024/exercise3.4"
+	  }
     },
     {
+	  "row_idx": 4,
+      "row": {
+		
       "problem": "Give a WHILE program $P$ in strict syntax that computes the function $f : \\mathbb{N} \\rightharpoonup \\mathbb{N}$ defined by:\n$$f(n) = \\begin{cases} 1 & \\text{if } n \\geq 42 \\\\ \\bot & \\text{otherwise} \\end{cases}$$",
       "solution": "The following WHILE program computes $f$ and is in strict syntax:\n\n```\nx1 = x1 - 41;\nx2 = x2 + 1;\nWHILE(x1 != 0) {\n  x2 = x2 - 1;\n  x1 = x1 - 1;\n};\nWHILE(x2 != 0) {\n  x2 = x2 + 0;\n};\nx1 = x1 + 1\n```\n\nExplanation: First, we subtract 41 from the input $x_1$. If the input was at least 42, then $x_1$ will be at least 1 after this subtraction. We set $x_2 = 1$. The first WHILE loop decrements both $x_1$ and $x_2$ while $x_1 \\neq 0$. If the original input was exactly 42, after subtracting 41 we have $x_1 = 1$, and after one iteration of the loop, $x_1 = 0$ and $x_2 = 0$. If the input was greater than 42, $x_2$ becomes 0 before $x_1$ does (and stays at 0 due to the semantics of subtraction). The second WHILE loop runs forever if $x_2 \\neq 0$, which happens when the input was less than 42. Finally, we set $x_1 = 1$ as output.\n\nThe answer is $\\boxed{\\text{x1 = x1 - 41; x2 = x2 + 1; WHILE(x1 != 0) \\{ x2 = x2 - 1; x1 = x1 - 1; \\}; WHILE(x2 != 0) \\{ x2 = x2 + 0; \\}; x1 = x1 + 1}}$",
       "answer": "x1 = x1 - 41; x2 = x2 + 1; WHILE(x1 != 0) { x2 = x2 - 1; x1 = x1 - 1; }; WHILE(x2 != 0) { x2 = x2 + 0; }; x1 = x1 + 1",
       "subject": "Computability Theory",
       "level": 3,
       "unique_id": "serie3_2024/exercise3.5"
+	  }
     },
     {
+	  "row_idx": 5,
+      "row": {
+		
       "problem": "Let $f : \\mathbb{N} \\to \\mathbb{N}$ be a LOOP-computable, total, and injective function. Define $f^{-1} : \\mathbb{N} \\rightharpoonup \\mathbb{N}$ by:\n$$f^{-1}(n) = \\begin{cases} m & \\text{if } f(m) = n \\\\ \\bot & \\text{otherwise} \\end{cases}$$\n\nIs $f^{-1}$ LOOP-computable? Prove your answer.",
       "solution": "In general, $f^{-1}$ is **not** LOOP-computable.\n\n**Proof:** If $f$ is not surjective, then $f^{-1}$ is actually a partial function (undefined for values not in the range of $f$). However, LOOP-computable functions are always total, because LOOP programs cannot construct infinite loops - every LOOP program terminates. Since $f^{-1}$ may be partial, it cannot always be LOOP-computable.\n\nTherefore, the answer is $\\boxed{\\text{No}}$.",
       "answer": "\\text{No}",
       "subject": "Computability Theory",
       "level": 4,
       "unique_id": "serie3_2024/exercise3.6a"
+	  }
     },
     {
+	  "row_idx": 6,
+      "row": {
+		
       "problem": "Let $f : \\mathbb{N} \\to \\mathbb{N}$ be a LOOP-computable, total, and injective function. Define $f^{-1} : \\mathbb{N} \\rightharpoonup \\mathbb{N}$ by:\n$$f^{-1}(n) = \\begin{cases} m & \\text{if } f(m) = n \\\\ \\bot & \\text{otherwise} \\end{cases}$$\n\nIs $f^{-1}$ WHILE-computable? Prove your answer.",
       "solution": "Yes, $f^{-1}$ **is** WHILE-computable.\n\n**Proof:** We provide a WHILE program that computes $f^{-1}$. Since $f$ is LOOP-computable and every LOOP-computable function is also WHILE-computable, there exists a WHILE program that computes $f$. We call it $f$ in the following WHILE program:\n\n```\nx2 = 1;\nWHILE(x2 != 0) {\n  x4 = f(x3)\n  IF x4 = x1 {x1 = x3; x2 = 0}\n  ELSE {x3 = x3 + 1}\n}\n```\n\n**Idea:** Iterate through every natural number $x_3$ (starting from 0) and check whether $f(x_3)$ equals the input value $x_1$. If this is the case, output $x_3$. Otherwise, the program runs forever (when no preimage exists).\n\nSince $f$ is injective, there is at most one $m$ with $f(m) = n$. If such an $m$ exists, the program will find it and terminate. If no such $m$ exists, the program loops forever, correctly producing $\\bot$.\n\nTherefore, the answer is $\\boxed{\\text{Yes}}$.",
       "answer": "\\text{Yes}",
       "subject": "Computability Theory",
       "level": 5,
       "unique_id": "serie3_2024/exercise3.6b"
+	  }
     },
     {
+	  "row_idx": 7,
+      "row": {
+		
       "problem": "Prove the following statement:\nFor every finite automaton $A = (Q, \\Sigma, q_0, \\delta, F)$ there exists a normalized Turing machine $M_A$ with $L(M_A) = L(A)$.\n\nIn your proof, please give a direct construction of $M_A$ for an arbitrary automaton $A$, i.e., avoid using already known connections between automata and grammars.",
       "solution": "Let $A = (Q, \\Sigma, q_0, \\delta, F)$ be a finite automaton. Construct $M_A = (Q', \\Sigma, \\Gamma, \\Delta, \\square, q_0, q_+, q_-)$, where:\n\n- $Q' = Q \\cup \\{q_+, q_-, q_L\\}$, where $q_+, q_-, q_L \\notin Q$ do not occur in $Q$\n- $\\Gamma = \\Sigma \\cup \\{\\square\\}$\n- $\\Delta$ contains the following transitions:\n  - $(q, a) \\to (q', a, .)$ for all $(q, a, q') \\in \\delta$\n  - $(q, \\square) \\to (q_L, \\square, /)$ for all $q \\in F$\n  - $(q_L, \\sigma) \\to (q_L, \\sigma, /)$ for all $\\sigma \\in \\Sigma$, and $(q_L, \\square) \\to (q_+, \\square, .)$ (movement to tape start for normalization)\n\n$M_A$ is normalized, because for all $w \\in \\Sigma^*$, $u, v \\in \\Sigma^*$ with $\\varepsilon q_0 w \\vdash^*_{M_A} u q_+ v$: $u \\in \\{\\square\\}^*$ and $v \\in \\Gamma^*_{M_A} \\cdot \\{\\square\\}^*$.\n\nIt holds that $L(A) = L(M_A)$ (without proof).\n\n**Additional question:** How does the proof work for the stronger statement: $M_A$ should be deterministic? (Multiple possibilities: (1) For every TM $M$ there exists a deterministic TM $M'$ with $L(M') = L(M)$. (2) TM can directly execute the powerset construction for finite automata.)\n\nThe answer is $\\boxed{M_A = (Q \\cup \\{q_+, q_-, q_L\\}, \\Sigma, \\Sigma \\cup \\{\\square\\}, \\Delta, \\square, q_0, q_+, q_-)}$.",
       "answer": "M_A = (Q \\cup \\{q_+, q_-, q_L\\}, \\Sigma, \\Sigma \\cup \\{\\square\\}, \\Delta, \\square, q_0, q_+, q_-)",
       "subject": "Computability Theory",
       "level": 4,
       "unique_id": "serie3_2025/exercise3.1"
+	  }
     },
     {
+	  "row_idx": 8,
+      "row": {
+		
       "problem": "Let $\\Sigma$ be a finite alphabet. We define the prefix relation $\\leq_p$ over $\\Sigma^*$ by $u \\leq_p w$ if there exists $v \\in \\Sigma^*$ with $w = u \\cdot v$. Analogously, we define the suffix relation $\\leq_s$ over $\\Sigma^*$ by $u \\leq_s w$ if there exists $v \\in \\Sigma^*$ with $w = v \\cdot u$. We define the function $f : \\Sigma^* \\to \\mathcal{P}(\\Sigma^+)$ by\n$$f(w) = \\{u \\in \\Sigma^+ \\mid u \\leq_p w \\text{ and } u \\leq_s w\\}$$\nfor all $w \\in \\Sigma^*$. For example, $f(abaab) = \\{ab, abaab\\}$ and $f(aaaa) = \\{a, aa, aaa, aaaa\\}$.\n\nShow that $f$ is Turing-computable. Please provide meaningful explanations of your Turing machine's behavior.",
       "solution": "We define a deterministic Turing machine $M$ with $T(M) = f$. The idea of how $M$ works is as follows: $M$ has 3 tapes. On tape 1 is the input word $w$. On tape 2, $M$ stores successively (letter by letter) all possible prefixes $u$ of $w$ and checks whether $u$ is also a suffix of $w$. If yes, $u$ is stored on tape 3 (we separate the individual words on tape 3 by a fresh symbol $\\#$).\n\nThe Turing machine works as follows:\n1. Start in state $q_0$, read input on tape 1\n2. In state $q_{\\to}$, move right on tape 1, copying characters to tape 2 to build prefixes\n3. In state $q_=$, compare the current prefix (on tape 2) with the suffix of the input (on tape 1)\n4. In state $q_f$, if match found, copy the prefix to tape 3 followed by $\\#$\n5. In state $q_{\\leftarrow}$, move back to continue with the next longer prefix\n6. In state $q_w$, prepare for the next iteration\n7. When all prefixes have been checked, go to $q_+$\n\nThe answer is $\\boxed{\\text{A 3-tape deterministic Turing machine that iterates through all prefixes and checks if each is also a suffix}}$.",
       "answer": "\\text{A 3-tape deterministic Turing machine that iterates through all prefixes and checks if each is also a suffix}",
       "subject": "Computability Theory",
       "level": 4,
       "unique_id": "serie3_2025/exercise3.2"
+	  }
     },
     {
+	  "row_idx": 9,
+      "row": {
+
       "problem": "Show that the following function is LOOP-computable:\n$$g_1 : \\mathbb{N} \\to \\mathbb{N}, \\quad n \\mapsto n!$$\nfor all $n \\in \\mathbb{N}$.",
       "solution": "We construct a LOOP program $P_1$ with $|P_1| = g_1$:\n\n```\nIF (x1 = 0) {x1 = 1} ELSE {\n  x2 = x1 - 1;\n  x3 = x1 - 2;\n  LOOP(x3) {\n    x1 = x1 * x2;\n    x2 = x2 - 1\n  }\n}\n```\n\nFirst, we handle the special case $x_1 = 0$ (output 1 because $0! = 1$). Otherwise: In $x_1$ the input value is stored; the output also goes in $x_1$. In $x_2$ the factors to be multiplied are successively decreased. $x_3$ determines how often the LOOP is executed, in our case 2 times fewer than the input value.\n\nThe answer is $\\boxed{\\text{IF (x1 = 0) \\{x1 = 1\\} ELSE \\{ x2 = x1 - 1; x3 = x1 - 2; LOOP(x3) \\{ x1 = x1 * x2; x2 = x2 - 1 \\} \\}}}$.",
       "answer": "\\text{IF (x1 = 0) \\{x1 = 1\\} ELSE \\{ x2 = x1 - 1; x3 = x1 - 2; LOOP(x3) \\{ x1 = x1 * x2; x2 = x2 - 1 \\} \\}}",
       "subject": "Computability Theory",
       "level": 3,
       "unique_id": "serie3_2025/exercise3.3a"
+	  }
     },
     {
+	  "row_idx": 10,
+      "row": {
       "problem": "Show that the following function is LOOP-computable:\n$$g_2 : \\mathbb{N}^2 \\to \\mathbb{N}, \\quad g_2(n_1, n_2) = \\begin{cases} 1 & \\text{if } n_1 = n_2 \\\\ 0 & \\text{otherwise} \\end{cases}$$\nfor all $n_1, n_2 \\in \\mathbb{N}$.",
       "solution": "We construct a LOOP program $P_2$ with $|P_2| = g_2$:\n\n```\nx3 = x2 - x1;\nx4 = x1 - x2;\nx3 = x3 + x4;\nx1 = 1;\nLOOP(x3) {x1 = 0}\n```\n\nExplanation: We compute $x_3 = |x_1 - x_2|$ using the modified subtraction (which returns 0 if the result would be negative). If $x_1 = x_2$, then $x_3 = 0$ and the LOOP executes 0 times, leaving $x_1 = 1$. If $x_1 \\neq x_2$, then $x_3 > 0$ and the LOOP sets $x_1 = 0$.\n\nThe answer is $\\boxed{\\text{x3 = x2 - x1; x4 = x1 - x2; x3 = x3 + x4; x1 = 1; LOOP(x3) \\{x1 = 0\\}}}$.",
       "answer": "\\text{x3 = x2 - x1; x4 = x1 - x2; x3 = x3 + x4; x1 = 1; LOOP(x3) \\{x1 = 0\\}}",
       "subject": "Computability Theory",
       "level": 3,
       "unique_id": "serie3_2025/exercise3.3b"
+	  }
     },
     {
+	  "row_idx": 11,
+      "row": {
+		
       "problem": "Let $A = (Q, \\Sigma, q_0, \\delta, F)$ be a finite automaton (where $\\delta \\subseteq Q \\times \\Sigma \\times Q$, i.e., no $\\varepsilon$-transitions allowed) and let $w \\in \\Sigma^*$. We call $w$ a witness for ambiguity of $A$ if there are at least two different accepting runs of $A$ on $w$.\n\nProve the following statement:\nFor every finite automaton $A = (Q, \\Sigma, q_0, \\delta, F)$ there exists a Turing machine $M_A$ with\n$$L(M_A) = \\{w \\in \\Sigma^* \\mid w \\text{ is a witness for ambiguity of } A\\}.$$",
       "solution": "Let $A = (Q, \\Sigma, q_0, \\delta, F)$ be a finite automaton. Define the Turing machine $M_A = (Q', \\Sigma, \\Gamma, \\square, \\Delta', q_0, q_+, q_-)$, where:\n\n- $Q' = \\{q_+, q_-\\} \\cup Q \\cup (Q \\times Q)$, where $q_+, q_- \\notin Q$\n- $\\Delta$ contains exactly the following transitions:\n  - $(q, a) \\to (q', a, .)$ for all $(q, a, q') \\in \\delta$\n  - $(q, a) \\to ((p, r), a, .)$ for all $(q, a, p), (q, a, r) \\in \\delta$ with $p \\neq r$\n  - $((p, r), a) \\to ((p', r'), a, .)$ for all $(p, a, p'), (r, a, r') \\in \\delta$\n  - $((p, r), \\square) \\to (q_+, \\square, .)$ for all $p, r \\in F$\n\nLet $w = a_1 \\ldots a_n$. The idea is to guess the beginning $i$ of two different runs of $A$ on $w$: first simulate on $a_1 \\ldots a_{i-1}$ a behavior of $A$, i.e., follow a run of $A$ on $a_1 \\ldots a_{i-1}$. Suppose this run ends in $q$. If from $q$ for the next letter $a_i$ there are two possible continuations $p$ and $r$ of the run, and from $p$ and $r$ there is an accepting run of $A$ on $a_{i+1} \\ldots a_n$, then $w$ is accepted by $M$.\n\nThe answer is $\\boxed{M_A = (\\{q_+, q_-\\} \\cup Q \\cup (Q \\times Q), \\Sigma, \\Gamma, \\square, \\Delta', q_0, q_+, q_-)}$.",
       "answer": "M_A = (\\{q_+, q_-\\} \\cup Q \\cup (Q \\times Q), \\Sigma, \\Gamma, \\square, \\Delta', q_0, q_+, q_-)",
       "subject": "Computability Theory",
       "level": 5,
       "unique_id": "serie3_2025/exercise3.4"
+	  }
     },
     {
+	  "row_idx": 12,
+      "row": {
       "problem": "Let $\\Sigma = \\{a, b\\}$. We define the infix relation $\\leq_i$ over $\\Sigma^*$ by $u \\leq_i w$ if there exist $v_1, v_2 \\in \\Sigma^*$ with $w = v_1 \\cdot u \\cdot v_2$. We define the partial function $f : \\{a, b, \\#\\}^* \\rightharpoonup \\{0, 1\\}$ by\n$$f(u\\#w) = \\begin{cases} 1 & \\text{if } u \\leq_i w \\\\ 0 & \\text{otherwise} \\end{cases}$$\nfor all $u, w \\in \\{a, b\\}^*$. For example, $f(ab\\#aab) = 1$, $f(aa\\#b) = 0$, and $f(aa) = \\bot$ is undefined.\n\nShow that $f$ is Turing-computable. Please provide meaningful explanations of your Turing machine's behavior.",
       "solution": "We define a deterministic 2-tape Turing machine $M$ with $T(M) = f$.\n\nLet $M = (Q, \\Sigma \\cup \\{\\#\\}, \\Gamma, \\square, \\Delta, q_0, q_+, q_-)$, where:\n- $Q = \\{q_0, q_\\#, q_{copy}, q_\\leftarrow, q_{comp}, q_\\infty, q_+, q_-, q_{comp2}, q_{fin0}, q_{fin}, q_{move}\\}$\n\nThe machine works as follows:\n\n1. **Input validation:** First, $M$ checks if the input has the form $\\Sigma^* \\# \\Sigma^*$. If not (e.g., no $\\#$ or multiple $\\#$), go to infinite loop $q_\\infty$.\n\n2. **Copy phase:** Copy the part after $\\#$ from tape 1 to tape 2 for easier comparison.\n\n3. **Return to start:** In state $q_\\leftarrow$, move back to the beginning of the input on both tapes.\n\n4. **Infix check:** In state $q_{comp}$, check if the input on tape 1 (before $\\#$) is an infix of the word on tape 2. The idea: the word on tape 1 is an infix of the word on tape 2 if there exists a position $i$ in the word on tape 2 from which the words on tape 1 and tape 2 match until $\\#$ is read on tape 1.\n\n5. **Comparison:** Starting from position 1 on tape 2, synchronously move left to right on both tapes checking if symbols match until: (a) mismatch occurs (restart needed), (b) $\\square$ read on tape 2 (failure), (c) $\\#$ read on tape 1 (success).\n\n6. **Output:** If infix found, output 1; if not found, output 0; if input malformed, loop forever.\n\nThe answer is $\\boxed{\\text{A 2-tape deterministic Turing machine that validates input format and checks for infix relationship}}$.",
       "answer": "\\text{A 2-tape deterministic Turing machine that validates input format and checks for infix relationship}",
       "subject": "Computability Theory",
       "level": 5,
       "unique_id": "serie3_2025/exercise3.5"
+	  }
     },
     {
+	  "row_idx": 13,
+      "row": {
+		
       "problem": "Define the function $g : \\{0, 1\\}^3 \\to \\{0, 1\\}$ by\n$$g(a_1, a_2, a_3) = (a_1 \\land a_2) \\lor \\neg a_3$$\nfor all $a_1, a_2, a_3 \\in \\{0, 1\\}$.\n\nShow that $g$ is LOOP-computable.",
       "solution": "The following LOOP program computes $g$:\n\n```\nx4 = 1;\nLOOP(x3) {\n  x4 = 0;\n  LOOP(x1) {\n    LOOP(x2) {\n      x4 = 1;\n    }\n  }\n}\nx1 = x4;\n```\n\nExplanation:\n- Initially set $x_4 = 1$ (this handles the $\\neg a_3$ part when $a_3 = 0$)\n- If $x_3 = 1$ (i.e., $a_3 = 1$), the outer LOOP executes once:\n  - Set $x_4 = 0$\n  - The nested LOOPs compute $a_1 \\land a_2$: only if both $x_1 > 0$ and $x_2 > 0$ will the innermost body execute, setting $x_4 = 1$\n- If $x_3 = 0$ (i.e., $a_3 = 0$), the outer LOOP doesn't execute, so $x_4$ remains 1 (since $\\neg 0 = 1$)\n- Finally, output the result in $x_1$\n\nThis correctly computes $(a_1 \\land a_2) \\lor \\neg a_3$.\n\nThe answer is $\\boxed{\\text{x4 = 1; LOOP(x3) \\{ x4 = 0; LOOP(x1) \\{ LOOP(x2) \\{ x4 = 1; \\} \\} \\} x1 = x4;}}$.",
       "answer": "\\text{x4 = 1; LOOP(x3) \\{ x4 = 0; LOOP(x1) \\{ LOOP(x2) \\{ x4 = 1; \\} \\} \\} x1 = x4;}",
       "subject": "Computability Theory",
       "level": 3,
       "unique_id": "serie3_2025/exercise3.6"
+	  }
     },
     {
+	  "row_idx": 14,
+      "row": {
+
       "problem": "Prove or disprove: The characteristic function $\\chi_L$ of every set $L \\subseteq \\Sigma^*$ is Turing-computable.",
       "solution": "**False.** The characteristic function of the general halting problem $H$ is not computable, because $H$ is not decidable. (A problem is by definition decidable if and only if its characteristic function is computable.)\n\nThe answer is $\\boxed{\\text{False}}$.",
       "answer": "\\text{False}",
       "subject": "Computability Theory",
       "level": 3,
       "unique_id": "serie6/exercise6.1a"
+	  }
     },
     {
-      "problem": "Prove or disprove: The complement $\\overline{H}$ of the general halting problem is not semi-decidable.",
+	  "row_idx": 15,
+      "row": {
+      
+	  "problem": "Prove or disprove: The complement $\\overline{H}$ of the general halting problem is not semi-decidable.",
       "solution": "**True.** Suppose $\\overline{H}$ were semi-decidable. The general halting problem $H$ is semi-decidable. Then by §8.8, $H$ would be decidable, which contradicts §9.10 (H is undecidable).\n\nThe answer is $\\boxed{\\text{True}}$.",
       "answer": "\\text{True}",
       "subject": "Computability Theory",
       "level": 4,
       "unique_id": "serie6/exercise6.1b"
+	  }
     },
     {
+	  "row_idx": 16,
+      "row": {
+
       "problem": "Prove or disprove: Every subset of a recursively enumerable language is countable.",
       "solution": "**True.** Every recursively enumerable language is also countable. Every subset of a countable language is countable.\n\nThe answer is $\\boxed{\\text{True}}$.",
       "answer": "\\text{True}",
       "subject": "Computability Theory",
       "level": 2,
       "unique_id": "serie6/exercise6.1c"
+	  }
     },
     {
+	  "row_idx": 17,
+      "row": {
+		
       "problem": "Prove or disprove: Every subset of a countable language is recursively enumerable.",
       "solution": "**False.** The language $\\{0, 1\\}^*$ is countable. But the subset $\\overline{H}$ (complement of the general halting problem) is not recursively enumerable.\n\nThe answer is $\\boxed{\\text{False}}$.",
       "answer": "\\text{False}",
       "subject": "Computability Theory",
       "level": 3,
       "unique_id": "serie6/exercise6.1d"
+	  }
     },
     {
+	  "row_idx": 18,
+      "row": {
+
       "problem": "Let $L \\subseteq \\{a, b\\}^*$ be recursively enumerable. Show that the following language is recursively enumerable:\n$$L_1 = \\{w \\cdot a \\mid w \\in L\\}$$",
       "solution": "Since $L$ is recursively enumerable, either $L = \\emptyset$ (then also $L_1 = \\emptyset$, so recursively enumerable and we are done) or there exists a computable surjective function $\\alpha : \\mathbb{N} \\to L$.\n\nDefine $\\alpha_1 : \\mathbb{N} \\to L_1$ by $n \\mapsto \\alpha(n) \\cdot a$ for all $n \\in \\mathbb{N}$. We prove that $\\alpha_1$ is computable and surjective.\n\n**Computability:** Let $M$ be a deterministic Turing machine that computes $\\alpha$: on input $n$, $M$ stops in $q_+$ with tape content $\\alpha(n)$. Let $M'$ be a deterministic Turing machine that on input $n$ simulates $M$ with input $n$; when $M$ stops in $q_+$ with $\\alpha(n)$, $M'$ additionally writes the letter $a$ at the end of $\\alpha(n)$ and then goes to accepting state $q'_+$ with tape content $\\alpha(n) \\cdot a$. $M'$ thus computes $\\alpha_1$.\n\n**Surjectivity:** Let $w \\in L_1$. Then $w = u \\cdot a$, where $u \\in L$. Since $\\alpha$ is surjective, there exists $n \\in \\mathbb{N}$ with $\\alpha(n) = u$. Thus $\\alpha_1(n) = w$. So $\\alpha_1$ is surjective.\n\nThe answer is $\\boxed{L_1 \\text{ is recursively enumerable}}$.",
       "answer": "L_1 \\text{ is recursively enumerable}",
       "subject": "Computability Theory",
       "level": 4,
       "unique_id": "serie6/exercise6.2a"
+	  }
     },
     {
+	  "row_idx": 19,
+      "row": {
+		
       "problem": "Let $L \\subseteq \\{a, b\\}^*$ be recursively enumerable. Show that the following language is recursively enumerable:\n$$L_2 = \\{u \\cdot v \\mid u, v \\in L\\}$$",
       "solution": "Since $L$ is recursively enumerable, either $L = \\emptyset$ (then also $L_2 = \\emptyset$, so recursively enumerable) or there exists a computable surjective function $\\alpha : \\mathbb{N} \\to L$.\n\nWe use the bijective (and computable) Cantor pairing function $c : \\mathbb{N} \\times \\mathbb{N} \\to \\mathbb{N}$ defined by $(n_1, n_2) \\mapsto ((n_1 + n_2)(n_1 + n_2 + 1))/2 + n_2$ for all $n_1, n_2 \\in \\mathbb{N}$. The inverse function $c^{-1}$ is also bijective and computable.\n\nDefine $\\alpha_2 : \\mathbb{N} \\to L_2$ by $n \\mapsto \\alpha(\\pi_1(c^{-1}(n))) \\cdot \\alpha(\\pi_2(c^{-1}(n)))$ for all $n \\in \\mathbb{N}$.\n\nWe prove that $\\alpha_2$ is computable and surjective:\n\n**Computability:** Follows from the computability of $\\alpha$, $c^{-1}$, $\\pi_1$, and $\\pi_2$.\n\n**Surjectivity:** Let $w \\in L_2$. Then there exist $u, v \\in L$ with $w = u \\cdot v$. Since $\\alpha$ is surjective, there exist $n_1$ and $n_2$ with $\\alpha(n_1) = u$ and $\\alpha(n_2) = v$. Let $n = c(n_1, n_2)$. Then $\\pi_1(c^{-1}(n)) = n_1$ and $\\pi_2(c^{-1}(n)) = n_2$. Thus $\\alpha_2(n) = u \\cdot v = w$. So $\\alpha_2$ is surjective.\n\nThe answer is $\\boxed{L_2 \\text{ is recursively enumerable}}$.",
       "answer": "L_2 \\text{ is recursively enumerable}",
       "subject": "Computability Theory",
       "level": 4,
       "unique_id": "serie6/exercise6.2b"
+	  }
     },
     {
+	  "row_idx": 20,
+      "row": {
+		
       "problem": "Define the language $H_{pal} \\subseteq B^*$ by\n$$H_{pal} = \\{w \\in B^* \\mid \\text{decode}(w) \\text{ halts on } w' \\text{ if } w' \\text{ is a palindrome}\\}$$\n\nShow by reduction from $H_\\varepsilon$ (halting problem on empty tape) that $H_{pal}$ is undecidable.\n\n(Recall: $H_\\varepsilon = \\{w \\in B^* \\mid \\text{decode}(w) \\text{ halts on } \\varepsilon\\}$.)",
       "solution": "To show that $H_{pal}$ is undecidable, it suffices by §9.10 to show that $H_\\varepsilon$ is reducible to $H_{pal}$, i.e., $H_\\varepsilon \\leq H_{pal}$. We define a total computable function $f : B^* \\to B^*$ such that $w \\in H_\\varepsilon$ iff $f(w) \\in H_{pal}$ for all $w \\in B^*$.\n\nFor all $w \\in B^*$, define $f(w) = \\text{code}(M_w)$, where $M_w$ is a normalized deterministic Turing machine that, on input $v \\in B^*$, first deletes $v$ from the tape, and then simulates the Turing machine $M := \\text{decode}(w)$ on the empty tape. The function $f$ is computable.\n\n**Correctness of the reduction:**\n\nSuppose $w \\in H_\\varepsilon$, i.e., $\\text{decode}(w)$ halts on empty tape. To show: $f(w) \\in H_{pal}$, i.e., $M' := \\text{decode}(f(w))$ halts on input $v$ if $v$ is a palindrome. Let $v \\in B^*$ be a palindrome. Then $M'$ first deletes $v$ from the tape and then simulates $M := \\text{decode}(w)$ on empty tape. By assumption, $M'$ also halts. Thus $f(w) \\in H_{pal}$. (Actually, we showed something stronger: $M'$ halts on every input!)\n\nSuppose $w \\notin H_\\varepsilon$, i.e., $\\text{decode}(w)$ does not halt on empty tape. To show: $f(w) \\notin H_{pal}$, i.e., $M' := \\text{decode}(f(w))$ does not halt on at least one palindrome $v$. We show something stronger: $M'$ doesn't halt on any input: let $v \\in B^*$. $M'$ first deletes $v$ from the tape and then simulates $M := \\text{decode}(w)$ on empty tape. By assumption, $M'$ does not halt. Thus $f(w) \\notin H_{pal}$.\n\nThe answer is $\\boxed{H_{pal} \\text{ is undecidable}}$.",
       "answer": "H_{pal} \\text{ is undecidable}",
       "subject": "Computability Theory",
       "level": 5,
       "unique_id": "serie6/exercise6.3"
+	  }
     },
     {
+	  "row_idx": 21,
+      "row": {
+		
       "problem": "Check whether Rice's theorem is applicable to show the undecidability of the following language:\n$$L_1 = \\{w \\in B^* \\mid \\text{decode}(w) \\text{ does not halt on input } 0\\}$$",
       "solution": "To show that Rice's theorem is applicable, we must find a set $F_1$ of partial computable functions such that:\n- $\\emptyset \\subsetneq F_1 \\subsetneq R$ (where $R$ is the set of all partial computable functions), and\n- $C(F_1) = L_1$ (where $C(F_1) = \\{w \\in B^* \\mid T(\\text{decode}(w)) \\in F_1\\}$)\n\nDefine $F_1 = \\{f : B^* \\rightharpoonup B^* \\mid f \\text{ computable and } f(0) \\text{ is not defined}\\}$.\n\nIt holds that $\\emptyset \\subsetneq F_1$, because $\\bot \\in F_1$ (the everywhere undefined function).\n\nIt holds that $F_1 \\subsetneq R$, because $\\text{id} \\in R \\setminus F_1$ (the identity function is defined on 0).\n\nFurthermore:\n$$C(F_1) = \\{w \\in B^* \\mid T(\\text{decode}(w)) \\in F_1\\}$$\n$$= \\{w \\in B^* \\mid T(\\text{decode}(w))(0) \\text{ is not defined}\\}$$\n$$= \\{w \\in B^* \\mid \\text{decode}(w) \\text{ does not halt on } 0\\}$$\n$$= L_1$$\n\nThus, Rice's theorem is applicable and $L_1$ is undecidable.\n\nThe answer is $\\boxed{\\text{Rice's theorem is applicable; } L_1 \\text{ is undecidable}}$.",
       "answer": "\\text{Rice's theorem is applicable; } L_1 \\text{ is undecidable}",
       "subject": "Computability Theory",
       "level": 4,
       "unique_id": "serie6/exercise6.4a"
+	  }
     },
     {
+	  "row_idx": 22,
+      "row": {
+		
       "problem": "Check whether Rice's theorem is applicable to show the undecidability of the following language:\n$$L_2 = \\{w \\in B^* \\mid \\text{decode}(w) \\text{ has exactly three states}\\}$$",
       "solution": "**Rice's theorem is NOT applicable** and this can be proven as follows (proof by contradiction):\n\nSuppose there were a non-trivial set $F_2$ of computable partial functions such that $C(F_2) = L_2$.\n\nLet $M_1$ be a Turing machine with exactly 3 states that computes $f : B^* \\to B^* : w \\mapsto w$ (the identity function), and let $M_2$ be a Turing machine with exactly 4 states that computes the same function $f$.\n\nThen clearly $\\text{code}(M_1) \\in L_2$ and $\\text{code}(M_2) \\notin L_2$.\n\nBut since $T(M_1) = T(M_2)$, we also have $\\text{code}(M_1) \\in C(F_2)$ iff $\\text{code}(M_2) \\in C(F_2)$.\n\nThis contradicts $C(F_2) = L_2$.\n\n(Note: $L_2$ is actually decidable, but that doesn't need to be shown here!)\n\nThe answer is $\\boxed{\\text{Rice's theorem is NOT applicable}}$.",
       "answer": "\\text{Rice's theorem is NOT applicable}",
       "subject": "Computability Theory",
       "level": 4,
       "unique_id": "serie6/exercise6.4b"
+	  }
     },
     {
+	  "row_idx": 23,
+      "row": {
+		
       "problem": "Prove or disprove: The set $\\mathcal{P}(\\Sigma^*)$ of all languages over $\\Sigma$ is not recursively enumerable.",
       "solution": "**True.** Proof by contradiction. Assume that $\\mathcal{P}(\\Sigma^*)$ is recursively enumerable. Then $\\mathcal{P}(\\Sigma^*)$ is also countable (see Lecture 8, Slide 33), which contradicts Theorem §1.13 in Lecture 1, where we showed that $\\mathcal{P}(\\Sigma^*)$ is not countable.\n\nThe answer is $\\boxed{\\text{True}}$.",
       "answer": "\\text{True}",
       "subject": "Computability Theory",
       "level": 3,
       "unique_id": "serie6/exercise6.5a"
+	  }
     },
     {
+	  "row_idx": 24,
+      "row": {
+		
       "problem": "Prove or disprove: All total functions are computable.",
       "solution": "**False.** For example, the characteristic function $\\chi_H$ of the halting problem $H$ is not computable, but it is total.\n\nThe answer is $\\boxed{\\text{False}}$.",
       "answer": "\\text{False}",
       "subject": "Computability Theory",
       "level": 2,
       "unique_id": "serie6/exercise6.5b"
+	  }
     },
     {
+	  "row_idx": 25,
+      "row": {
+		
       "problem": "Prove or disprove: Every subset of an undecidable language $L$ is also undecidable.",
       "solution": "**False.** The empty set $\\emptyset$ is a subset of every set $L$, and $\\emptyset$ is decidable.\n\nThe answer is $\\boxed{\\text{False}}$.",
       "answer": "\\text{False}",
       "subject": "Computability Theory",
       "level": 2,
       "unique_id": "serie6/exercise6.5c"
+	  }
     },
     {
-      "problem": "Let $L_1, L_2 \\subseteq \\Sigma^*$ be two recursively enumerable languages over a finite alphabet $\\Sigma$ such that $L_1 \\cap L_2 = \\emptyset$. Furthermore, let $L = L_1 \\cup L_2$. Show that $L_1$ is decidable if $L$ is decidable.",
+	  "row_idx": 26,
+      "row": {
+
+	  "problem": "Let $L_1, L_2 \\subseteq \\Sigma^*$ be two recursively enumerable languages over a finite alphabet $\\Sigma$ such that $L_1 \\cap L_2 = \\emptyset$. Furthermore, let $L = L_1 \\cup L_2$. Show that $L_1$ is decidable if $L$ is decidable.",
       "solution": "Assume $L$ is decidable. Then there exists a deterministic Turing machine $M$ that computes $\\chi_L$. That is, on input $w \\in \\Sigma^*$, $M$ halts in $q_+$ with tape content 1 if $w \\in L$ and in $q_+$ with tape content 0 if $w \\notin L$.\n\nSince $L_1 \\cap L_2 = \\emptyset$, we have:\n- $w \\in L$ iff ($w \\in L_1$ and $w \\notin L_2$) or ($w \\in L_2$ and $w \\notin L_1$)\n- $w \\notin L$ iff $w \\notin L_1$ and $w \\notin L_2$\n\n$L_1$ and $L_2$ are by assumption recursively enumerable, i.e., semi-decidable. So there exists a deterministic Turing machine $M_1$ that computes the half characteristic function $\\rho_{L_1}$, and there exists a deterministic Turing machine $M_2$ that computes $\\rho_{L_2}$. That is, if $w \\in L_1$, then $M_1$ halts in $q_+^1$ with tape content 1, and if $w \\in L_2$, then $M_2$ halts in $q_+^2$ with tape content 1.\n\nWe define a new deterministic Turing machine $M'$ that computes $\\chi_{L_1}$:\n\n$M'$ first simulates $M$ on input $w$. If $M$ halts in $q_+$ with tape content 0 (i.e., $w \\notin L$, so $w \\notin L_1$), then $M'$ goes to $q_+'$ with tape content 0.\n\nIf $M$ halts in $q_+$ with tape content 1 (i.e., $w \\in L$), then $M'$ simulates both $M_1$ and $M_2$ step by step synchronously (\"in parallel\"). Since $w \\in L$, exactly one of the two machines must halt in its respective accepting state with tape content 1.\n- If $M_1$ halts in $q_+^1$ with tape content 1, then $M'$ goes to $q_+'$ with tape content 1, because then $w \\in L_1$.\n- If $M_2$ halts in $q_+^2$ with tape content 1, then $M'$ goes to $q_+'$ with tape content 0, because then $w \\in L_2$, so $w \\notin L_1$.\n\nThe answer is $\\boxed{L_1 \\text{ is decidable}}$.",
       "answer": "L_1 \\text{ is decidable}",
       "subject": "Computability Theory",
       "level": 5,
       "unique_id": "serie6/exercise6.6"
+	  }
     },
     {
+	  "row_idx": 27,
+      "row": {
+		
       "problem": "Define the language $H_\\exists \\subseteq B^*$ by\n$$H_\\exists = \\{w \\in B^* \\mid \\text{decode}(w) \\text{ halts on at least one word}\\}.$$\n\nShow by reduction that $H_\\exists$ is undecidable.",
       "solution": "We show $H_\\varepsilon \\leq H_\\exists$. To do this, we define a total computable function $f : B^* \\to B^*$ such that $w \\in H_\\varepsilon$ iff $f(w) \\in H_\\exists$.\n\nDefine, for all $w \\in B^*$, $f(w) = \\text{code}(M_w)$, where $M_w$ is a normalized deterministic TM that first deletes any input from the input tape and then simulates the TM $\\text{decode}(w)$ on the empty tape.\n\nIndeed, $f$ is total and computable.\n\n**Correctness:**\n\nSuppose $w \\in H_\\varepsilon$. Then $\\text{decode}(w)$ halts on the empty tape. Then $M_w$ halts on every input, so also on at least one input word. Thus $\\text{code}(M_w) \\in H_\\exists$.\n\nSuppose $w \\notin H_\\varepsilon$. Then $\\text{decode}(w)$ does not halt on the empty tape. Then $M_w$ does not halt on any input. Thus $\\text{code}(M_w) \\notin H_\\exists$.\n\nThe answer is $\\boxed{H_\\exists \\text{ is undecidable}}$.",
       "answer": "H_\\exists \\text{ is undecidable}",
       "subject": "Computability Theory",
       "level": 5,
       "unique_id": "serie6/exercise6.7"
+	  }
     },
     {
+	  "row_idx": 28,
+      "row": {
+		
       "problem": "Check whether Rice's theorem is applicable to show the undecidability of the following language:\n$$L_1 = \\{w \\in B^* \\mid \\text{decode}(w) \\text{ computes the successor of the number represented in binary by the input word } w'\\}$$",
       "solution": "**Rice's theorem is applicable.**\n\nSet $F_1 = \\{nf\\}$, where $nf : B^* \\to B^*$ is the function that maps every word to its successor (in binary representation).\n\nIt holds that $\\emptyset \\subsetneq F_1$, because e.g., $\\text{id} \\notin F_1$ (the identity is not the successor function).\n\nIt holds that $F_1 \\subsetneq R$, because e.g., $\\bot \\in R \\setminus F_1$ (the everywhere undefined function is not the successor function).\n\nFurthermore:\n$$C(F_1) = \\{w \\in B^* \\mid T(\\text{decode}(w)) \\in F_1\\}$$\n$$= \\{w \\in B^* \\mid T(\\text{decode}(w)) = nf\\}$$\n$$= L_1$$\n\nThus, Rice's theorem is applicable and $L_1$ is undecidable.\n\nThe answer is $\\boxed{\\text{Rice's theorem is applicable; } L_1 \\text{ is undecidable}}$.",
       "answer": "\\text{Rice's theorem is applicable; } L_1 \\text{ is undecidable}",
       "subject": "Computability Theory",
       "level": 4,
       "unique_id": "serie6/exercise6.8a"
+	  }
     },
     {
+	  "row_idx": 29,
+      "row": {
+		
       "problem": "Check whether Rice's theorem is applicable to show the undecidability of the following language:\n$$L_2 = \\{w \\in B^* \\mid \\text{decode}(w) \\text{ halts after an even number of steps on input } 001\\}$$",
       "solution": "**Rice's theorem is NOT applicable here.**\n\nIntuitively, the property \"halts after an even number of steps\" is a property of the computation, not of the computed function.\n\nFormally, we prove non-applicability with a proof by contradiction. Suppose there were a non-trivial set $F_2$ of computable partial functions such that $C(F_2) = L_2$.\n\nLet $M_1$ be a deterministic Turing machine that computes the partial function $f : B^* \\rightharpoonup B^*$ which maps input 001 to 001 and is undefined for all other inputs. Furthermore, $M_1$ should use exactly 8 steps on input 001 until it halts (4 steps for checking the input and 4 steps for returning to the beginning of the input).\n\nLet $M_2$ be a Turing machine that computes the same function $f$, but uses exactly 9 steps on input 001.\n\n(Both Turing machines exist, as is easy to see.)\n\nThen clearly $\\text{code}(M_1) \\in L_2$ (8 is even) and $\\text{code}(M_2) \\notin L_2$ (9 is odd).\n\nBut since $T(M_1) = T(M_2)$, we also have $\\text{code}(M_1) \\in C(F_2)$ iff $\\text{code}(M_2) \\in C(F_2)$.\n\nThis contradicts $C(F_2) = L_2$.\n\nThe answer is $\\boxed{\\text{Rice's theorem is NOT applicable}}$.",
       "answer": "\\text{Rice's theorem is NOT applicable}",
       "subject": "Computability Theory",
       "level": 5,
       "unique_id": "serie6/exercise6.8b"
+	  }
     }
   ]
 }
