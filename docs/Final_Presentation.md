@@ -100,18 +100,18 @@ Python interpreter executes → deterministic, correct result
 
 ### Mathematical Benchmarks
 
-| Benchmark    | Description                                     | Top Performance     |
-| ------------ | ----------------------------------------------- | ------------------- |
-| **MATH-500** | 500 diverse problems across 5 difficulty levels | >90% for top models |
+|Benchmark|Description|Top Performance|
+|---|---|---|
+|**MATH-500**|500 diverse problems across 5 difficulty levels|>90% for top models|
 
 > **Ref:** Hendrycks, D. et al. (2021). Measuring Mathematical Problem Solving With the MATH Dataset. _NeurIPS 2021_.
 
 ### General-Purpose vs. Coding-Specialized LLMs
 
-| Type                   | Examples                | Strengths                                            |
-| ---------------------- | ----------------------- | ---------------------------------------------------- |
-| **General-Purpose**    | GPT-4, Claude, Gemini   | Broad world knowledge, strong language understanding |
-| **Coding-Specialized** | GLM-4.7, DeepSeek-Coder | Optimized code generation, agent-oriented workflows  |
+|Type|Examples|Strengths|
+|---|---|---|
+|**General-Purpose**|GPT-4, Claude, Gemini|Broad world knowledge, strong language understanding|
+|**Coding-Specialized**|GLM-4.7, DeepSeek-Coder|Optimized code generation, agent-oriented workflows|
 
 ---
 
