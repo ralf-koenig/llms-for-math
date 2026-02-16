@@ -8,19 +8,19 @@ services:
     networks:
       - appnet
 
-  streamlit:
-    build: ./streamlit-app
-    container_name: streamlit
-    ports:
-      - "8501:8501"
-    environment:
-      - LLM_API_KEY=${LLM_API_KEY}
-    depends_on:
-      - sandbox
-    volumes:
-      - ./data/autosaves:/results
-    networks:
-      - appnet
+#  streamlit:
+#    build: ./streamlit-app
+#    container_name: streamlit
+#    ports:
+#      - "8501:8501"
+#    environment:
+#      - LLM_API_KEY=${LLM_API_KEY}
+#    depends_on:
+#      - sandbox
+#    volumes:
+#      - ./data/autosaves:/results
+#    networks:
+#      - appnet
 
   server:
     image: projectnumina/kimina-lean-server:2.0.0
