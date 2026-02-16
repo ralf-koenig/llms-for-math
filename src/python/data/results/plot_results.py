@@ -5,7 +5,7 @@ import numpy as np
 
 matplotlib.rcParams['font.family'] = 'sans-serif'
 
-CSV = "src/python/data/results/results_2026-02-16_11-27-05.csv"
+CSV = "/home/fritz/Code/llms-for-math/src/python/data/results/qwen-coder/results_2026-02-16_21-41-15.csv"
 df = pd.read_csv(CSV)
 df['Category'] = df['ID'].str.extract(r'test/([^/]+)/')
 
@@ -46,7 +46,7 @@ ax.set_title('Overall Accuracy by Approach\n(GPT-OSS-120b, n=100)', fontsize=14,
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 fig.tight_layout()
-fig.savefig('src/python/data/results/plot_A_overall_bar.png', dpi=150)
+fig.savefig('/home/fritz/Code/llms-for-math/src/python/data/results/qwen-coder/plot_A_overall_bar.png', dpi=150)
 plt.close()
 
 
@@ -70,7 +70,7 @@ ax.legend(loc='upper right', fontsize=10)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 fig.tight_layout()
-fig.savefig('src/python/data/results/plot_B_category_grouped.png', dpi=150)
+fig.savefig('/home/fritz/Code/llms-for-math/src/python/data/results/qwen-coder/plot_B_category_grouped.png', dpi=150)
 plt.close()
 
 
@@ -99,7 +99,7 @@ for ax, app, label, col in zip(axes, approaches, labels, colors_main):
 
 fig.suptitle('Correct vs Incorrect by Category\n(GPT-OSS-120b, n=100)', fontsize=14, fontweight='bold', y=1.02)
 fig.tight_layout()
-fig.savefig('src/python/data/results/plot_C_horizontal_stacked.png', dpi=150, bbox_inches='tight')
+fig.savefig('/home/fritz/Code/llms-for-math/src/python/data/results/qwen-coder/plot_C_horizontal_stacked.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -123,7 +123,7 @@ cbar = fig.colorbar(im, ax=ax, shrink=0.8)
 cbar.set_label('Accuracy (%)', fontsize=11)
 ax.set_title('Accuracy Heatmap by Category & Approach\n(GPT-OSS-120b, n=100)', fontsize=14, fontweight='bold')
 fig.tight_layout()
-fig.savefig('src/python/data/results/plot_D_heatmap.png', dpi=150)
+fig.savefig('/home/fritz/Code/llms-for-math/src/python/data/results/qwen-coder/plot_D_heatmap.png', dpi=150)
 plt.close()
 
 
@@ -146,7 +146,7 @@ ax.set_yticklabels(['20%', '40%', '60%', '80%', '100%'], fontsize=8)
 ax.set_title('Accuracy Radar by Category\n(GPT-OSS-120b, n=100)', fontsize=14, fontweight='bold', y=1.08)
 ax.legend(loc='lower right', bbox_to_anchor=(1.25, 0), fontsize=10)
 fig.tight_layout()
-fig.savefig('src/python/data/results/plot_E_radar.png', dpi=150, bbox_inches='tight')
+fig.savefig('/home/fritz/Code/llms-for-math/src/python/data/results/qwen-coder/plot_E_radar.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -175,7 +175,7 @@ ax.legend(loc='upper right', fontsize=10)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 fig.tight_layout()
-fig.savefig('src/python/data/results/plot_F_difficulty_grouped.png', dpi=150)
+fig.savefig('/home/fritz/Code/llms-for-math/src/python/data/results/qwen-coder/plot_F_difficulty_grouped.png', dpi=150)
 plt.close()
 
 
@@ -199,7 +199,7 @@ cbar = fig.colorbar(im, ax=ax, shrink=0.8)
 cbar.set_label('Accuracy (%)', fontsize=11)
 ax.set_title('Accuracy Heatmap by Difficulty & Approach\n(GPT-OSS-120b, n=100)', fontsize=14, fontweight='bold')
 fig.tight_layout()
-fig.savefig('src/python/data/results/plot_G_difficulty_heatmap.png', dpi=150)
+fig.savefig('/home/fritz/Code/llms-for-math/src/python/data/results/qwen-coder/plot_G_difficulty_heatmap.png', dpi=150)
 plt.close()
 
 
@@ -223,7 +223,7 @@ ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 ax.grid(axis='y', alpha=0.3)
 fig.tight_layout()
-fig.savefig('src/python/data/results/plot_H_difficulty_line.png', dpi=150)
+fig.savefig('/home/fritz/Code/llms-for-math/src/python/data/results/qwen-coder/plot_H_difficulty_line.png', dpi=150)
 plt.close()
 
 
@@ -259,7 +259,7 @@ fig.tight_layout()
 fig.subplots_adjust(right=0.92)
 cbar = fig.colorbar(im, ax=axes, shrink=0.8, pad=0.02)
 cbar.set_label('Accuracy (%)', fontsize=11)
-fig.savefig('src/python/data/results/plot_I_category_difficulty_heatmap.png', dpi=150, bbox_inches='tight')
+fig.savefig('/home/fritz/Code/llms-for-math/src/python/data/results/qwen-coder/plot_I_category_difficulty_heatmap.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
