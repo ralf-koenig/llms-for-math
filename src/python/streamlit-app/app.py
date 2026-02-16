@@ -25,8 +25,8 @@ client = OpenAI(
 
 def strip_tags_and_thinking(text):
     """Remove HTML tags and Markdown code blocks from text."""
-    # html_pattern = r'<[^>]+>(.|\n)*<\/[^>]+>'
-    html_pattern = r'(.|\n)*<\/think>'
+    html_pattern = r'<[^>]+>(.|\n)*<\/[^>]+>'
+    # html_pattern = r'(.|\n)*<\/think>'
     text = re.sub(html_pattern, '', text, flags=re.DOTALL)
     text = re.sub(r"^```[a-zA-Z]*\n", "", text, flags=re.MULTILINE)
     text = re.sub(r"\n```$", "", text)

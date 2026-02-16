@@ -75,11 +75,16 @@ def retry_on_error(func):
 
 def strip_tags_and_thinking(text):
     """Remove thinking tags and Markdown code blocks from text."""
-    html_pattern = r'(.|\n)*<\/think>'
-    text = re.sub(html_pattern, '', text, flags=re.DOTALL)
-    text = re.sub(r"^```[a-zA-Z]*\n", "", text, flags=re.MULTILINE)
-    text = re.sub(r"\n```$", "", text)
-    return text.strip()
+    try: 
+        html_pattern = r'<[^>]+>(.|\n)*<\/[^>]+>'    
+        # html_pattern = r'(.|\n)*<\/think>'
+        text = re.sub(html_pattern, '', text, flags=re.DOTALL)
+        text = re.sub(r"^```[a-zA-Z]*\n", "", text, flags=re.MULTILINE)
+        text = re.sub(r"\n```$", "", text)
+        return text.strip()
+    except Exception as e:
+        print('strip_tags_and_thiniking:', e)
+        return e
 
 
 @retry_on_error
@@ -118,6 +123,7 @@ def generate_code(client, question, model_name):
         )
         code = r.choices[0].message.content.strip()
         code = strip_tags_and_thinking(code)
+        print('code', code)
         return code, None
     except Exception as e:
         return None, f"Code generation error: {str(e)}"
@@ -309,6 +315,7 @@ def run_evaluation(client, dataset_path, model_name, output_path, methods, row_r
         # --- Python code generation + execution ---
         if "python" in methods:
             code, code_err = generate_code(client, q, model_name)
+            print(code)
             if code_err:
                 errors_encountered.append(f"Row {i}: Python code generation error - {code_err}")
                 print(f"  [python] Code gen error: {code_err}")

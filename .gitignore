@@ -289,3 +289,5 @@ __marimo__/
 
 #lean4 prompting tests
 src/lean4/prompting/results.json
+
+venv_maths/
