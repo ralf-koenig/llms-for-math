@@ -47,28 +47,43 @@ def create_client():
 
 
 MAX_RETRIES = 5
-RETRY_DELAY = 30  # seconds
+RETRY_DELAY = 300  # seconds
 
 
-def retry_on_error(func):
-    """Retry a function up to MAX_RETRIES times with RETRY_DELAY seconds between attempts."""
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        last_result = None
-        for attempt in range(1, MAX_RETRIES + 1):
-            result = func(*args, **kwargs)
-            last_result = result
-            # All wrapped functions return (value, error) tuples.
-            # Retry if the error field (second element) is set.
-            if result[1] is None or result[1] == "":
-                return result
-            if attempt < MAX_RETRIES:
-                print(f"    Retry {attempt}/{MAX_RETRIES} after error: {result[1]}  "
-                      f"(waiting {RETRY_DELAY}s)")
-                time.sleep(RETRY_DELAY)
-        print(f"    All {MAX_RETRIES} attempts failed.")
-        return last_result
-    return wrapper
+def retry_on_error(_func=None, *, retry_delay=RETRY_DELAY):
+    """Retry a function up to MAX_RETRIES times with retry_delay seconds between attempts."""
+
+    def decorator_retry(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            last_result = None
+            for attempt in range(1, MAX_RETRIES + 1):
+                result = func(*args, **kwargs)
+                last_result = result
+
+                # All wrapped functions return (value, error) tuples.
+                # Retry if the error field (second element) is set.
+                if result[1] is None or result[1] == "":
+                    return result
+
+                if attempt < MAX_RETRIES:
+                    print(
+                        f"    Retry {attempt}/{MAX_RETRIES} after error: {result[1]}  "
+                        f"(waiting {retry_delay}s)"
+                    )
+                    time.sleep(retry_delay)
+
+            print(f"    All {MAX_RETRIES} attempts failed.")
+            return last_result
+
+        return wrapper
+
+    # If used as @retry_on_error without parentheses
+    if _func is not None and callable(_func):
+        return decorator_retry(_func)
+
+    # If used as @retry_on_error(...)
+    return decorator_retry
 
 
 # --- Helper Functions (same logic as app.py) ---
@@ -76,7 +91,7 @@ def retry_on_error(func):
 def strip_tags_and_thinking(text):
     """Remove thinking tags and Markdown code blocks from text."""
     try: 
-        html_pattern = r'<[^>]+>(.|\n)*<\/[^>]+>'    
+        html_pattern = r'<[^>]*>(.|\n)*<\/[^>]*>'    
         # html_pattern = r'(.|\n)*<\/think>'
         text = re.sub(html_pattern, '', text, flags=re.DOTALL)
         text = re.sub(r"^```[a-zA-Z]*\n", "", text, flags=re.MULTILINE)
@@ -107,7 +122,7 @@ def run_raw_llm(client, question, model_name):
 def generate_code(client, question, model_name):
     """Generate Python code to solve a math question."""
     try:
-        r = client.chat.completions.create(
+        r = client.chat.completions.create(     
             model=model_name,
             messages=[
                 {"role": "system", "content": """
@@ -123,13 +138,12 @@ def generate_code(client, question, model_name):
         )
         code = r.choices[0].message.content.strip()
         code = strip_tags_and_thinking(code)
-        print('code', code)
         return code, None
     except Exception as e:
         return None, f"Code generation error: {str(e)}"
 
 
-@retry_on_error
+@retry_on_error(retry_delay=10)
 def execute_python(code):
     """Execute Python code in sandbox and return output."""
     if code is None:
@@ -172,7 +186,7 @@ def generate_lean(client, question, model_name):
         return None, f"Lean code generation error: {str(e)}"
 
 
-@retry_on_error
+@retry_on_error(retry_delay=10)
 def execute_lean(code):
     """Execute Lean4 code via Kimina server and return output."""
     if code is None:
@@ -316,7 +330,6 @@ def run_evaluation(client, dataset_path, model_name, output_path, methods, row_r
         # --- Python code generation + execution ---
         if "python" in methods:
             code, code_err = generate_code(client, q, model_name)
-            print(code)
             if code_err:
                 errors_encountered.append(f"Row {i}: Python code generation error - {code_err}")
                 print(f"  [python] Code gen error: {code_err}")
