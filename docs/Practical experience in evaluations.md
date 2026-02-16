@@ -92,4 +92,17 @@ from 200 (100 in, 100 out) to 10.000 with the same task
   * a set of three values like {3, 5, 7}
   * a vector of 3 items like (1/3, 2/3, 5/3)
 
-Relatively easy to memorize in terms of tokens.
+These are relatively easy to memorize in terms of tokens.
+They may not be representative for more serious math tasks that
+return large lists, vectors, or matrices. Or that need thoughtful
+reasoning on proofs.
+
+## Overall findings
+
+* many simple problems better handled by a symbolic Mathematica, Matlab Symbolic Math Toolbox or sympy directly
+  * reliable computations
+  * can be checked in the symbolic math program as well
+  * likely way less compute resources
+* models seem capable for these tasks
+
+* Theorem prover: better in Lean4
