@@ -23,14 +23,34 @@ client = OpenAI(
 # HELPER FUNCTIONS
 
 
-def strip_tags_and_thinking(text):
+def strip_tags_and_thinking(text, timeout_seconds=5):
     """Remove HTML tags and Markdown code blocks from text."""
-    html_pattern = r'<[^>]+>(.|\n)*<\/[^>]+>'
-    # html_pattern = r'(.|\n)*<\/think>'
-    text = re.sub(html_pattern, '', text, flags=re.DOTALL)
-    text = re.sub(r"^```[a-zA-Z]*\n", "", text, flags=re.MULTILINE)
-    text = re.sub(r"\n```$", "", text)
-    return text.strip()
+    import signal
+
+    def _timeout_handler(signum, frame):
+        raise TimeoutError("strip_tags_and_thinking timed out")
+
+    try:
+        old_handler = signal.signal(signal.SIGALRM, _timeout_handler)
+        signal.alarm(timeout_seconds)
+
+        # Use [\s\S]*? (non-greedy) instead of (.|\n)* to avoid catastrophic backtracking
+        html_pattern = r'<[^>]*>[\s\S]*?<\/[^>]*>'
+        text = re.sub(html_pattern, '', text, flags=re.DOTALL)
+        text = re.sub(r"^```[a-zA-Z]*\n", "", text, flags=re.MULTILINE)
+        text = re.sub(r"\n```$", "", text)
+
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, old_handler)
+        return text.strip()
+    except TimeoutError:
+        signal.alarm(0)
+        print('strip_tags_and_thinking: timed out, returning raw text')
+        return text.strip()
+    except Exception as e:
+        signal.alarm(0)
+        print('strip_tags_and_thinking:', e)
+        return text.strip()
 
 
 def run_raw_llm(question, model_name):

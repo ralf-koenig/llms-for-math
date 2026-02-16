@@ -88,18 +88,34 @@ def retry_on_error(_func=None, *, retry_delay=RETRY_DELAY):
 
 # --- Helper Functions (same logic as app.py) ---
 
-def strip_tags_and_thinking(text):
+def strip_tags_and_thinking(text, timeout_seconds=5):
     """Remove thinking tags and Markdown code blocks from text."""
-    try: 
-        html_pattern = r'<[^>]*>(.|\n)*<\/[^>]*>'    
-        # html_pattern = r'(.|\n)*<\/think>'
+    import signal
+
+    def _timeout_handler(signum, frame):
+        raise TimeoutError("strip_tags_and_thinking timed out")
+
+    try:
+        old_handler = signal.signal(signal.SIGALRM, _timeout_handler)
+        signal.alarm(timeout_seconds)
+
+        # Use [\s\S]*? (non-greedy) instead of (.|\n)* to avoid catastrophic backtracking
+        html_pattern = r'<[^>]*>[\s\S]*?<\/[^>]*>'
         text = re.sub(html_pattern, '', text, flags=re.DOTALL)
         text = re.sub(r"^```[a-zA-Z]*\n", "", text, flags=re.MULTILINE)
         text = re.sub(r"\n```$", "", text)
+
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, old_handler)
+        return text.strip()
+    except TimeoutError:
+        signal.alarm(0)
+        print('strip_tags_and_thinking: timed out, returning raw text')
         return text.strip()
     except Exception as e:
-        print('strip_tags_and_thiniking:', e)
-        return e
+        signal.alarm(0)
+        print('strip_tags_and_thinking:', e)
+        return text.strip()
 
 
 @retry_on_error
