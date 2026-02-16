@@ -281,6 +281,7 @@ def run_evaluation(client, dataset_path, model_name, output_path, methods, row_r
 
         result_row = {
             "ID": uid,
+            "Difficulty": r.get("level", ""),
             "Problem": q,
             "Ground Truth Answer": r["answer"],
             "Ground Truth Solution": r.get("solution", ""),
