@@ -99,10 +99,13 @@ reasoning on proofs.
 
 ## Overall findings
 
-* many simple problems better handled by a symbolic Mathematica, Matlab Symbolic Math Toolbox or sympy directly
+* many of the simple problems in Math 500 would better be handled
+by a symbolic math program such as Octave, Mathematica, Matlab Symbolic Math Toolbox or 
+Python package ``sympy`` directly
   * reliable computations
   * can be checked in the symbolic math program as well
   * likely way less compute resources
-* models seem capable for these tasks
 
-* Theorem prover: better in Lean4
+* models however seem capable for these tasks, limited generalization from there, as
+Math 500 dataset ist likely in training data of the models
+* Lean code 
