@@ -14,37 +14,41 @@ from openai.types.shared_params.reasoning import Reasoning
 from openai.types.responses.response_text_config_param import ResponseTextConfigParam
 
 # Repetitions per question
-REPETITIONS = 5    # Warning: Keep in mind OpenAI costs for API calls !!
+REPETITIONS = 1    # Warning: Keep in mind OpenAI costs for API calls !!
 
 # maximum number of questions, max 100 for our version of math500.json which is reduced to 100 questions
-MAX_QUESTION = 100   # max 100, as only 100 questions in dataset
+MAX_QUESTION = 30   # max 100 for our math500 dataset
+                   # max 30 for our computability dataset
 
 #### OPENAI llm models
 # LLM_MODEL = "gpt-5.2-pro-2025-12-11" # USE WITH CARE! Enforces reasoning effort=medium or higher!
 #                                        HIGH COST QUICKLY due to many reasoning tokens even with low verbosity.
 # LLM_MODEL = "gpt-5.2-2025-12-11"  # USE WITH CARE. High cost for reasoning effort = medium or high!
-# LLM_MODEL = "gpt-5-mini-2025-08-07" # USE WITH CARE when combining
+LLM_MODEL = "gpt-5-mini-2025-08-07" # USE WITH CARE when combining
 # LLM_MODEL = "gpt-5-nano-2025-08-07"
 
 #### Blablador llm models
 # LLM_MODEL = "0 - Ministral-3-14B-Instruct-2512 - The latest Ministral from Dec.2.2025"
-LLM_MODEL = "1 - GPT-OSS-120b - an open model released by OpenAI in August 2025"
+# LLM_MODEL = "1 - GPT-OSS-120b - an open model released by OpenAI in August 2025"
 # LLM_MODEL = "2 - Qwen3 235, a great model from Alibaba with a long context size"
 # LLM_MODEL = "7 - Qwen3-Coder-Next from Feb 2026"
 
-OUTPUT_FILE = "llm_direct_answer_results"
+# JSON_INPUT_FILE =  '../../data/math500.json'
+JSON_INPUT_FILE =  '../../data/computability_theory_dataset.json'
+
+OUTPUT_FILE = "llm_direct_answer_results_computability"
 
 def list_openai_models():
     model_list=[]
 
     # Use for OpenAI services at their OpenAI servers
-    # client = OpenAI()
+    client = OpenAI()
 
-    # Use for Blablador services at Helmholtz Center
-    client = OpenAI(
-        api_key=os.getenv("LLM_API_KEY"),
-        base_url="https://api.helmholtz-blablador.fz-juelich.de/v1/"
-    )
+    # # Use for Blablador services at Helmholtz Center
+    # client = OpenAI(
+    #     api_key=os.getenv("LLM_API_KEY"),
+    #     base_url="https://api.helmholtz-blablador.fz-juelich.de/v1/"
+    # )
 
     # Get list of available models from OpenAI metadata server
     models = client.models.list()
@@ -65,12 +69,13 @@ if __name__ == '__main__':
     start_time = f"{datetime.today().strftime('%Y-%m-%d-%H:%M:%S')}"
     print("Start time", start_time)
 
-    with open('../../data/math500.json') as json_file:
-        math500 = json.load(json_file)
+    with open(JSON_INPUT_FILE) as json_file:
+        json_data = json.load(json_file)
 
     # use only the first MAX_QUESTION questions
-    dataset = math500["rows"][0:MAX_QUESTION]
+    dataset = json_data["rows"][0:MAX_QUESTION]
 
+    # gather test_results in a list
     test_results = list()
 
     for question in dataset:
@@ -78,6 +83,7 @@ if __name__ == '__main__':
         row_idx = question["row_idx"]
         subject = question["row"]["subject"]
         level = question["row"]["level"]
+        unique_id = question["row"]["unique_id"]
 
         problem = question["row"]["problem"]
         ground_truth_solution = question["row"]["solution"]
@@ -90,13 +96,13 @@ if __name__ == '__main__':
             print("repetition", i)
 
             # Use for OpenAI services at their OpenAI servers
-            # client = OpenAI()
+            client = OpenAI()
 
             # Use for Blablador services at Helmholtz Center
-            client = OpenAI(
-                api_key=os.getenv("LLM_API_KEY"),
-                base_url="https://api.helmholtz-blablador.fz-juelich.de/v1/"
-            )
+            # client = OpenAI(
+            #     api_key=os.getenv("LLM_API_KEY"),
+            #     base_url="https://api.helmholtz-blablador.fz-juelich.de/v1/"
+            # )
 
             try:
                 response = client.responses.create(
@@ -113,11 +119,11 @@ if __name__ == '__main__':
                                                    # xhigh (option for GPT 5.2 Pro and 5.2)
                                 # summary = "auto", # organization must be verified, for analysis of reasoning process
                                            ),
-                    text = ResponseTextConfigParam (verbosity = "medium"),
+                    text = ResponseTextConfigParam (verbosity = "low"),
                                                 # low : produces shorter, more concise code with minimal commentary
                                                 # medium (default):  yield longer, more structured code with inline explanations
                                                 # high:
-                    # max_output_tokens = 10000,   # An upper bound for the number of tokens that can be generated for a response,
+                    # max_output_tokens = 10000,  # An upper bound for the number of tokens that can be generated for a response,
                                                 # including visible output tokens and (!) reasoning tokens (!)
 
                     # max_tool_calls = 1,       # The maximum number of total calls to built-in tools that can be processed in a
@@ -151,6 +157,7 @@ if __name__ == '__main__':
 
 
             test_row = dict(row_idx=row_idx,
+                            unique_id=unique_id,
                             problem=problem,
                             level=level,
                             subject=subject,

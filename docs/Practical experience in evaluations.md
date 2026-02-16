@@ -92,4 +92,20 @@ from 200 (100 in, 100 out) to 10.000 with the same task
   * a set of three values like {3, 5, 7}
   * a vector of 3 items like (1/3, 2/3, 5/3)
 
-Relatively easy to memorize in terms of tokens.
+These are relatively easy to memorize in terms of tokens.
+They may not be representative for more serious math tasks that
+return large lists, vectors, or matrices. Or that need thoughtful
+reasoning on proofs.
+
+## Overall findings
+
+* many of the simple problems in Math 500 would better be handled
+by a symbolic math program such as Octave, Mathematica, Matlab Symbolic Math Toolbox or 
+Python package ``sympy`` directly
+  * reliable computations
+  * can be checked in the symbolic math program as well
+  * likely way less compute resources
+
+* models however seem capable for these tasks, limited generalization from there, as
+Math 500 dataset ist likely in training data of the models
+* Lean code 
